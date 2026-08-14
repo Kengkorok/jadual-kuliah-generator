@@ -26,16 +26,16 @@ Alat jana jadual kuliah interaktif untuk masjid, surau, dan institusi pengajian 
 - **Sidebar Boleh Diubah Saiz** - Laraskan lebar panel kawalan mengikut keinginan
 - **Simpan & Muat Semula** - Simpan data jadual dalam format JSON untuk digunakan kembali
 
-### 🚀 Cara Memulai
+### 🚀 Cara Nak Guna
 
 1. **Muat turun atau buka fail HTML**
    
    [jadual-kuliah-generator.html](https://github.com/Kengkorok/jadual-kuliah-generator/blob/main/jadual-kuliah-generator.html)
    
 
-2. **Buka di browser** (Chrome, Firefox, Safari, Edge)
-   - Salin fail ke folder anda dan buka dengan double-click, ATAU
-   - Drag-drop fail ke jendela browser anda
+2. **Buka di browser** (Chrome, Firefox, Safari, Edge, Brave)
+   - Muat turun fail html ke folder anda dan buka dengan double-click, ATAU
+   - Drag-drop fail ke browser anda
 
 3. **Isi butiran masjid/institusi anda**
    - Nama Masjid / Surau / Institut (wajib)
@@ -50,8 +50,8 @@ Alat jana jadual kuliah interaktif untuk masjid, surau, dan institusi pengajian 
    - (Pilihan) Muat naik gambar penceramah
    - Tekan "Tambah Slot ke Jadual"
 
-5. **Buat program banner penuh** (opsyonal)
-   - Untuk acara istimewa/utama
+5. **Buat program banner penuh** (optional)
+   - Untuk program besar eg : Ceramah Perdana, Forum, Sambutan Hari kebesaran dll.
    - Muat naik poster/banner yang memenuhi kotak tarikh
 
 6. **Ubahsuai warna & fon**
