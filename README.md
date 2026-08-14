@@ -29,9 +29,9 @@ Alat jana jadual kuliah interaktif untuk masjid, surau, dan institusi pengajian 
 ### 🚀 Cara Memulai
 
 1. **Muat turun atau buka fail HTML**
-   ```
-   jadual-kuliah-generator.html
-   ```
+   
+   [jadual-kuliah-generator.html](https://github.com/Kengkorok/jadual-kuliah-generator/blob/main/jadual-kuliah-generator.html)
+   
 
 2. **Buka di browser** (Chrome, Firefox, Safari, Edge)
    - Salin fail ke folder anda dan buka dengan double-click, ATAU
