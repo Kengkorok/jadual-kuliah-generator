@@ -1,0 +1,1663 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Jana Jadual Kuliah Bulanan</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700;800;900&family=Montserrat:wght@500;600;700;800;900&family=Inter:wght@500;600;700;800;900&family=Nunito:wght@600;700;800;900&family=Jost:wght@500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://use.typekit.net/svd6fll.css">
+<style>
+  :root{
+    --navy:#0F2846;
+    --pink:#ED145B;
+    --blue:#0076A3;
+    --teal:#00A99D;
+    --yellow:#FFDE16;
+    --orange:#F5A623;
+    --purple:#8E44AD;
+    --green:#16A085;
+    --title-color:#0B5345;
+    --cell-border:#0F2846;
+    --poster-font:'Poppins';
+    --fs-scale:1;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    font-family:'Poppins', 'Arial', 'Helvetica Neue', sans-serif;
+    background:#e7ebee;
+    color:#1a1a1a;
+    min-height:100vh;
+  }
+  #appScreen{
+    display:none;
+    min-height:100vh;
+    width:100%;
+  }
+  /* ---------- LANDING SCREEN ---------- */
+  #landingScreen{
+    position:fixed;
+    inset:0;
+    background:linear-gradient(135deg, var(--navy) 0%, #183a63 100%);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:24px;
+    z-index:1000;
+    overflow-y:auto;
+  }
+  #landingCard{
+    background:#fff;
+    border-radius:16px;
+    padding:36px 40px;
+    max-width:520px;
+    width:100%;
+    box-shadow:0 12px 40px rgba(0,0,0,.35);
+    box-sizing:border-box;
+  }
+  #landingCard h1{
+    margin:0 0 8px;
+    font-size:26px;
+    color:var(--navy);
+    font-weight:800;
+  }
+  #landingCard .landing-desc{
+    color:#555;
+    font-size:13.5px;
+    line-height:1.55;
+    margin:0 0 20px;
+  }
+  #landingCard label{display:block;font-size:12px;font-weight:bold;color:#444;margin:14px 0 4px;}
+  #landingCard input[type=text]{
+    width:100%;
+    padding:9px 10px;
+    border:1px solid #ccc;
+    border-radius:8px;
+    font-size:14px;
+    font-family:inherit;
+    box-sizing:border-box;
+  }
+  #landingCard input[type=file]{width:100%;font-size:12px;}
+  #landingCard .req{color:var(--pink);}
+  #landingCard .row2{display:flex;gap:14px;}
+  #landingCard .row2 > div{flex:1;min-width:0;}
+  .logo-preview{
+    display:none;
+    margin-top:8px;
+    max-width:100%;
+    max-height:60px;
+    border-radius:6px;
+    border:1px solid #eee;
+    object-fit:contain;
+    background:#fafafa;
+    padding:4px;
+    box-sizing:border-box;
+  }
+  #landingCreateBtn{margin-top:24px;font-size:14px;padding:12px;}
+  #profileBar{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:8px;
+    background:#f0f3f6;
+    border:1px solid #dde2e7;
+    border-radius:8px;
+    padding:8px 10px;
+    margin-bottom:14px;
+  }
+  #profileBarName{
+    font-size:12px;
+    font-weight:bold;
+    color:var(--navy);
+    overflow:hidden;
+    text-overflow:ellipsis;
+    white-space:nowrap;
+  }
+  /* ---------- SIDEBAR ---------- */
+  #sidebar{
+    width:390px;
+    min-width:260px;
+    max-width:640px;
+    flex-shrink:0;
+    background:#ffffff;
+    padding:20px;
+    overflow-y:auto;
+    max-height:100vh;
+    box-sizing:border-box;
+  }
+  #sidebarResizer{
+    width:6px;
+    flex-shrink:0;
+    max-height:100vh;
+    cursor:col-resize;
+    position:relative;
+    background:transparent;
+    touch-action:none;
+  }
+  #sidebarResizer::after{
+    content:'';
+    position:absolute;
+    top:0; bottom:0;
+    left:2px;
+    width:2px;
+    background:#d8dde2;
+  }
+  #sidebarResizer:hover::after,
+  #sidebarResizer.dragging::after{
+    background:var(--navy);
+    width:3px;
+    left:1.5px;
+  }
+  #sidebar h2{
+    font-size:15px;
+    text-transform:uppercase;
+    letter-spacing:.5px;
+    color:var(--navy);
+    margin:22px 0 10px;
+    border-bottom:2px solid var(--navy);
+    padding-bottom:6px;
+  }
+  #sidebar h2:first-of-type{margin-top:0;}
+  #sidebar label{
+    display:block;
+    font-size:12px;
+    font-weight:bold;
+    color:#444;
+    margin:10px 0 4px;
+  }
+  #sidebar input[type=text],
+  #sidebar input[type=number],
+  #sidebar select,
+  #sidebar textarea{
+    width:100%;
+    padding:7px 8px;
+    border:1px solid #ccc;
+    border-radius:6px;
+    font-size:13px;
+    font-family:inherit;
+  }
+  #sidebar textarea{resize:vertical;min-height:40px;}
+  .row2{display:flex;gap:8px;}
+  .row2 > div{flex:1;}
+  button{
+    cursor:pointer;
+    font-family:inherit;
+    font-weight:bold;
+    border:none;
+    border-radius:6px;
+    padding:9px 12px;
+    font-size:13px;
+  }
+  .btn-primary{background:var(--navy);color:#fff;width:100%;margin-top:12px;}
+  .btn-primary:hover{background:#183a63;}
+  .btn-secondary{background:#eef1f4;color:#222;width:100%;margin-top:8px;}
+  .btn-secondary:hover{background:#e2e6ea;}
+  .btn-danger{background:#fdeaea;color:#c0392b;padding:4px 8px;font-size:11px;}
+  .btn-small{padding:4px 8px;font-size:11px;border-radius:5px;}
+  .export-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px;}
+  .export-grid button{margin-top:0;}
+  .btn-png{background:var(--teal);color:#fff;}
+  .btn-pdf{background:var(--pink);color:#fff;}
+
+  .entry-item{
+    background:#f7f8fa;
+    border:1px solid #e2e5e9;
+    border-radius:8px;
+    padding:8px 10px;
+    margin-bottom:6px;
+    font-size:12px;
+  }
+  .entry-item .eh{display:flex;justify-content:space-between;align-items:center;gap:8px;}
+  .entry-item .eh b{color:var(--navy);}
+  .entry-item .em{color:#666;margin-top:2px;}
+  .entry-item .eh-btns{display:flex;gap:6px;flex-shrink:0;}
+  .btn-edit{background:#e8f3fb;color:#0076A3;padding:4px 8px;font-size:11px;border-radius:5px;}
+  .entry-item.editing{background:#fff8e1;border-color:#f2d98a;}
+  .swatch-row{display:flex;align-items:center;justify-content:space-between;margin:6px 0;font-size:12px;}
+  .swatch-row input[type=color]{width:34px;height:26px;border:1px solid #ccc;border-radius:4px;padding:0;}
+  small.hint{display:block;color:#888;font-size:11px;margin-top:4px;line-height:1.4;}
+
+  /* ---------- MAIN / POSTER ---------- */
+  #main{
+    flex:1;
+    padding:28px;
+    overflow:auto;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+  }
+  #posterWrap{
+    background:#fff;
+    box-shadow:0 4px 24px rgba(0,0,0,.18);
+    flex-shrink:0;
+  }
+  #poster{
+    width:1240px;
+    height:877px;
+    background-color:var(--navy);
+    background-size:cover;
+    background-position:center;
+    background-repeat:no-repeat;
+    display:flex;
+    flex-direction:column;
+    overflow:hidden;
+    position:relative;
+    font-family:var(--poster-font), 'Arial', 'Helvetica Neue', sans-serif;
+  }
+  #headerArea{position:relative;flex-shrink:0;}
+  #posterHeaderBg{
+    width:100%;
+    min-height:110px;
+    display:flex;
+    align-items:center;
+    gap:22px;
+    padding:6px 28px;
+    box-sizing:border-box;
+  }
+  #headerLogos{
+    display:flex;
+    align-items:center;
+    gap:14px;
+    flex-shrink:0;
+  }
+  .logo-circle{
+    display:none;
+    align-items:center;
+    justify-content:center;
+    flex-shrink:0;
+    width:92px;
+    height:92px;
+    border-radius:50%;
+    background:#fff;
+    padding:10px;
+    box-sizing:border-box;
+    box-shadow:0 2px 6px rgba(0,0,0,.25);
+  }
+  .header-logo{
+    max-width:100%;
+    max-height:100%;
+    width:auto;
+    height:auto;
+    object-fit:contain;
+    display:block;
+  }
+  #headerMasjidPhotoWrap{
+    display:none;
+    flex-shrink:0;
+    width:300px;
+    height:130px;
+    background:transparent;
+  }
+  .header-masjid-photo{
+    width:100%;
+    height:100%;
+    object-fit:contain;
+    display:block;
+  }
+  #headerTitleBlock{
+    flex:1;
+    min-width:0;
+    text-align:right;
+    font-family:'gotham', 'Arial', 'Helvetica Neue', sans-serif;
+    align-self:flex-end;
+    padding-bottom:2px;
+  }
+  #posterMainTitle{
+    font-size:calc(45px * var(--fs-scale));
+    font-weight:900;
+    color:var(--yellow);
+    text-transform:uppercase;
+    letter-spacing:.5px;
+    line-height:1;
+    white-space:nowrap;
+  }
+  #posterMasjidName{
+    font-size:calc(35px * var(--fs-scale));
+    font-weight:700;
+    color:#fff;
+    margin-top:3px;
+    text-transform:uppercase;
+    line-height:0.5;
+  }
+  #monthPillRow{
+    display:flex;
+    align-items:center;
+    justify-content:flex-end;
+    gap:10px;
+    margin-top:5px;
+  }
+  #monthPillLabel{
+    color:#fff;
+    font-weight:800;
+    font-size:calc(30px * var(--fs-scale));
+    text-transform:uppercase;
+    letter-spacing:.5px;
+  }
+  #monthPillText{
+    min-width:150px;
+    height:42px;
+    padding:0 18px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-weight:900;
+    color:#111;
+    letter-spacing:1px;
+    font-size:calc(18px * var(--fs-scale));
+    text-transform:uppercase;
+    background:#fff;
+    border:4px solid #111;
+    border-radius:999px;
+    box-shadow:0 2px 5px rgba(0,0,0,.25);
+    box-sizing:border-box;
+    flex-shrink:0;
+    font-family:'gotham', 'Arial', 'Helvetica Neue', sans-serif;
+  }
+  #headerAddressBar{
+    display:none;
+    align-items:center;
+    justify-content:flex-end;
+    gap:16px;
+    background:var(--teal);
+    color:#fff;
+    font-size:calc(12px * var(--fs-scale));
+    font-weight:700;
+    letter-spacing:.2px;
+    padding:5px 28px;
+    flex-shrink:0;
+  }
+  #headerAddressText{text-transform:uppercase;}
+  #headerPhoneText{
+    flex-shrink:0;
+    border-left:2px solid rgba(255,255,255,.55);
+    padding-left:16px;
+    text-transform:uppercase;
+    white-space:nowrap;
+  }
+  #dowRow{
+    display:flex;
+    gap:8px;
+    padding:6px 10px 5px;
+    flex-shrink:0;
+  }
+  .dow{
+    flex:1;
+    background:var(--pink);
+    color:#fff;
+    text-align:center;
+    font-weight:900;
+    font-size:calc(20px * var(--fs-scale));
+    padding:11px 0;
+    border-radius:14px;
+    text-transform:uppercase;
+    letter-spacing:.3px;
+    line-height:1;
+  }
+  #grid{
+    display:grid;
+    grid-template-columns:repeat(7,1fr);
+    gap:8px;
+    padding:0 10px 10px;
+    flex:1;
+    min-height:0;
+  }
+  .cell{
+    background:#fff;
+    border-radius:16px;
+    min-height:0;
+    position:relative;
+    display:flex;
+    flex-direction:column;
+    overflow:hidden;
+    box-shadow:0 8px 18px rgba(0,0,0,.25), 0 2px 5px rgba(0,0,0,.15);
+  }
+  .cell.empty{
+    background:#fff;
+    border:none;
+    box-shadow:none;
+  }
+  .cell.empty-span{
+    background:#fff;
+    border:none;
+    box-shadow:none;
+  }
+  .datebadge{
+    position:absolute;
+    top:-4px;
+    right:-4px;
+    background:var(--yellow);
+    color:#111;
+    font-weight:900;
+    font-size:calc(19px * var(--fs-scale));
+    min-width:42px;
+    height:36px;
+    padding:0 8px 0 10px;
+    border-radius:0 13px 0 16px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    z-index:2;
+    line-height:1;
+  }
+  .slot{
+    flex:0 0 auto;
+    display:flex;
+    flex-direction:column;
+    min-height:0;
+  }
+  /* one slot alone in a cell takes the same height a slot would get in a two-slot cell
+     (~half the box, matching a full slot's proportions) instead of stretching to the
+     bottom; two slots split the cell evenly; a full-width event block (e.g. Yasin) always fills */
+  .cell.two-slots .slot{flex:1;}
+  .cell.one-slot .slot{flex:0 0 50%;}
+  .cell.one-slot .slot.slot-fill{flex:1;}
+  .slot + .slot{border-top:3px solid var(--cell-border);}
+  .slot-title{
+    font-weight:900;
+    font-size:calc(12px * var(--fs-scale));
+    line-height:1.15;
+    color:var(--title-color);
+    text-transform:uppercase;
+    padding:7px 52px 4px 10px;
+    flex-shrink:0;
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+  }
+  .slot:nth-child(n+2) .slot-title{padding-right:10px;}
+  .slot-bar{
+    display:flex;
+    align-items:stretch;
+    flex:1;
+    min-height:0;
+  }
+  .slot-photo{
+    width:48px;
+    min-width:48px;
+    background-color:#ddd;
+    background-size:cover;
+    background-position:center;
+    background-repeat:no-repeat;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    color:#fff;
+    font-size:9px;
+  }
+  .slot-text{
+    flex:1;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    padding:3px 8px;
+    color:#fff;
+    min-width:0;
+    overflow:hidden;
+  }
+  .slot-topic{
+    font-style:italic;
+    font-size:calc(9.5px * var(--fs-scale));
+    line-height:1.15;
+    overflow:hidden;
+    display:-webkit-box;
+    -webkit-line-clamp:2;
+    -webkit-box-orient:vertical;
+    flex-shrink:0;
+  }
+  .slot-name{
+    flex-shrink:0;
+    font-weight:900;
+    font-size:calc(10.5px * var(--fs-scale));
+    line-height:1.15;
+    text-transform:uppercase;
+    overflow:hidden;
+    display:-webkit-box;
+    -webkit-line-clamp:2;
+    -webkit-box-orient:vertical;
+  }
+  /* yasin/event style block (no photo) */
+  .slot-event{
+    display:flex;
+    align-items:stretch;
+    flex:1;
+    min-height:0;
+  }
+  .slot-event .label{
+    flex:1;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    color:#fff;
+    font-weight:900;
+    font-size:calc(20px * var(--fs-scale));
+    text-align:center;
+    padding:4px 8px;
+    line-height:1.2;
+    text-transform:uppercase;
+  }
+  /* banner (full image) cell */
+  .banner-img{
+    width:100%;
+    height:100%;
+    background-color:#111;
+    background-size:cover;
+    background-position:center;
+    background-repeat:no-repeat;
+    position:relative;
+  }
+  .banner-caption{
+    position:absolute;
+    left:0;right:0;bottom:0;
+    background:linear-gradient(transparent, rgba(0,0,0,.75));
+    color:#fff;
+    padding:16px 8px 6px;
+    font-size:calc(10px * var(--fs-scale));
+  }
+  .banner-caption .bn{font-weight:900;font-size:calc(11px * var(--fs-scale));text-transform:uppercase;}
+  .banner-caption .bt{font-style:italic;font-size:calc(9.5px * var(--fs-scale));}
+  .banner-speaker{
+    position:absolute;
+    right:6px;
+    bottom:6px;
+    width:42px;height:42px;
+    border-radius:8px;
+    border:2px solid #fff;
+    background-color:#ddd;
+    background-size:cover;
+    background-position:center;
+    background-repeat:no-repeat;
+    box-shadow:0 2px 6px rgba(0,0,0,.4);
+  }
+
+  #emptyState{
+    color:#888;
+    font-size:12px;
+    text-align:center;
+    padding:10px 4px;
+  }
+  .field-note{font-size:11px;color:#999;margin-top:2px;}
+  #dataIOBtns{display:flex;gap:8px;margin-top:8px;}
+  #dataIOBtns button{flex:1;margin-top:0;}
+  #fileInputHidden, #uploadDataInput{display:none;}
+  .bg-row{display:flex;gap:8px;align-items:center;margin-top:8px;}
+  .bg-row input[type=color]{width:44px;height:34px;border:1px solid #ccc;border-radius:6px;padding:0;flex-shrink:0;}
+  .bg-row select{flex:1;}
+  .fit-row{display:flex;gap:8px;margin-top:6px;}
+  .fit-row select{flex:1;}
+</style>
+</head>
+<body>
+
+<div id="landingScreen">
+  <div id="landingCard">
+    <h1>Jadual Kuliah Generator</h1>
+    <p class="landing-desc">Buat jadual kuliah di masjid anda dengan mudah — hanya perlu masukkan nama penceramah, nama kitab/tajuk, dan jenis kuliah seperti Kuliah Maghrib, Kuliah Subuh, Ceramah Perdana, Kuliah Dhuha, Tazkirah, Forum dan lain-lain.</p>
+
+    <label>Nama Masjid / Surau / Institut <span class="req">*</span></label>
+    <input type="text" id="landingMasjidName" placeholder="cth: Masjid Talhah Bin Ubaidillah, Bukit Jalil">
+
+    <label>Alamat (pilihan)</label>
+    <input type="text" id="landingAddress" placeholder="cth: Taman Alam Sutera, Bukit Jalil, 57000 Kuala Lumpur">
+
+    <label>No. Telefon (pilihan)</label>
+    <input type="text" id="landingPhone" placeholder="cth: 03-8074 7414">
+
+    <div class="row2">
+      <div>
+        <label>Logo Masjid (pilihan)</label>
+        <input type="file" id="landingLogoMasjid" accept="image/*">
+        <img id="landingLogoMasjidPreview" class="logo-preview">
+      </div>
+      <div>
+        <label>Logo Jabatan (pilihan)</label>
+        <input type="file" id="landingLogoJabatan" accept="image/*">
+        <img id="landingLogoJabatanPreview" class="logo-preview">
+      </div>
+    </div>
+    <small class="hint">Setiap logo yang dimuat naik akan dipaparkan dalam bulatan putih di header.</small>
+
+    <label>Gambar Masjid (pilihan)</label>
+    <input type="file" id="landingMasjidPhoto" accept="image/*">
+    <img id="landingMasjidPhotoPreview" class="logo-preview">
+    <small class="hint">Dipaparkan di header poster, antara logo dan tajuk.</small>
+
+    <button class="btn-primary" id="landingCreateBtn">Create →</button>
+    <small class="hint">Maklumat ni disimpan pada peranti/browser ni sahaja, supaya awak tak perlu isi semula setiap kali buka.</small>
+  </div>
+</div>
+
+<div id="appScreen">
+<div id="sidebar">
+  <div id="profileBar">
+    <span id="profileBarName"></span>
+    <button class="btn-small btn-secondary" id="editProfileBtn">✎ Tukar Profil</button>
+  </div>
+  <h2>1. Bulan &amp; Tahun</h2>
+  <div class="row2">
+    <div>
+      <label>Bulan</label>
+      <select id="monthSel"></select>
+    </div>
+    <div>
+      <label>Tahun</label>
+      <input type="number" id="yearInput" value="2026" min="2020" max="2100">
+    </div>
+  </div>
+
+  <h2>2. Tambah Slot Kuliah</h2>
+  <label>Tarikh</label>
+  <select id="dateSel"></select>
+
+  <label>Jenis Program</label>
+  <select id="typeSel">
+    <option value="Kuliah Subuh">Kuliah Subuh</option>
+    <option value="Kuliah Maghrib">Kuliah Maghrib</option>
+    <option value="Tazkirah Jumaat">Tazkirah Jumaat</option>
+    <option value="Ceramah Perdana">Ceramah Perdana</option>
+    <option value="Kuliah Khas">Kuliah Khas</option>
+    <option value="Tazkirah Khas">Tazkirah Khas</option>
+    <option value="Bacaan Yasin & Tahlil">Bacaan Yasin &amp; Tahlil</option>
+    <option value="__custom__">+ Tajuk Custom...</option>
+  </select>
+  <input type="text" id="customTypeInput" placeholder="Nama tajuk besar custom" style="display:none;margin-top:6px;">
+
+  <label>Nama Penceramah</label>
+  <input type="text" id="speakerInput" placeholder="cth: Ustaz Ahmad Fathi">
+
+  <label>Tajuk / Kitab</label>
+  <input type="text" id="topicInput" placeholder="cth: Kitab Tafsir Ibnu Kathir">
+
+  <label>Gambar Penceramah (pilihan)</label>
+  <input type="file" id="photoInput" accept="image/*">
+  <img id="photoInputPreview" class="logo-preview">
+  <div class="fit-row">
+    <select id="photoFitSel">
+      <option value="cover">Isi Penuh (Cover — mungkin dipotong sikit)</option>
+      <option value="contain">Muat Semua (Contain — gambar penuh, tak dipotong)</option>
+    </select>
+  </div>
+
+  <button class="btn-primary" id="addSlotBtn">+ Tambah Slot ke Jadual</button>
+  <button class="btn-secondary" id="cancelEditSlotBtn" style="display:none;">✕ Batal Edit</button>
+  <small class="hint">Setiap kotak tarikh boleh muat maksimum 2 slot. Untuk Bacaan Yasin &amp; Tahlil, ruangan nama/gambar boleh dibiar kosong. Semasa edit, kalau tak muat naik gambar baru, gambar asal dikekalkan.</small>
+
+  <h2>3. Program Besar (Banner Penuh)</h2>
+  <label>Tarikh</label>
+  <select id="bannerDateSel"></select>
+  <label>Gambar Poster/Banner</label>
+  <input type="file" id="bannerImgInput" accept="image/*">
+  <img id="bannerImgPreview" class="logo-preview">
+  <div class="fit-row">
+    <select id="bannerImgFitSel">
+      <option value="cover">Isi Penuh (Cover — mungkin dipotong sikit)</option>
+      <option value="contain">Muat Semua (Contain — gambar penuh, tak dipotong)</option>
+    </select>
+  </div>
+  <label>Nama Penceramah (pilihan)</label>
+  <input type="text" id="bannerSpeakerInput" placeholder="cth: Ust Zainuddin">
+  <label>Tajuk (pilihan)</label>
+  <input type="text" id="bannerTopicInput" placeholder="cth: Al-Qur'an & Tajwid">
+  <label>Gambar Penceramah kecil (pilihan)</label>
+  <input type="file" id="bannerSpeakerPhotoInput" accept="image/*">
+  <img id="bannerSpeakerPhotoPreview" class="logo-preview">
+  <div class="fit-row">
+    <select id="bannerSpeakerFitSel">
+      <option value="cover">Isi Penuh (Cover)</option>
+      <option value="contain">Muat Semua (Contain)</option>
+    </select>
+  </div>
+  <button class="btn-primary" id="addBannerBtn">+ Jadikan Banner Penuh</button>
+  <button class="btn-secondary" id="cancelEditBannerBtn" style="display:none;">✕ Batal Edit</button>
+
+  <h2>4. Senarai Slot Tersimpan</h2>
+  <div id="entryList"><div id="emptyState">Belum ada slot ditambah lagi.</div></div>
+
+  <h2>5. Warna Kategori</h2>
+  <div id="colorPickers"></div>
+
+  <h2>6. Fon Tulisan</h2>
+  <label>Jenis Fon Poster</label>
+  <select id="fontSel">
+    <option value="Poppins">Poppins (asal — lebih tebal/bulat)</option>
+    <option value="Montserrat">Montserrat (kemas, sederhana)</option>
+    <option value="Inter">Inter (nipis, moden)</option>
+    <option value="Nunito">Nunito (bulat lembut)</option>
+    <option value="Jost">Jost (elegan, ramping)</option>
+    <option value="figtree">Figtree (moden, geometrik)</option>
+    <option value="gotham">Gotham (klasik, korporat)</option>
+  </select>
+  <label>Saiz Fon Poster</label>
+  <select id="fontSizeSel">
+    <option value="0.85">Kecil (85%)</option>
+    <option value="0.92">Kecil-Sederhana (92%)</option>
+    <option value="1">Sederhana (100% — asal)</option>
+    <option value="1.1">Besar (110%)</option>
+    <option value="1.2">Lebih Besar (120%)</option>
+  </select>
+  <small class="hint">Tukar fon kalau rasa Poppins asal terlalu "gemuk"/tebal untuk citarasa kau. Saiz fon menukar semua teks dalam kalendar (tajuk kuliah, nama penceramah, tarikh, dll).</small>
+
+  <h2>7. Latar Belakang Poster</h2>
+  <div class="bg-row">
+    <input type="color" id="bgColorInput" value="#0F2846">
+    <select id="bgFitSel">
+      <option value="cover">Isi Penuh (Cover)</option>
+      <option value="contain">Muat Semua (Contain)</option>
+    </select>
+  </div>
+  <label>Gambar Latar Belakang (pilihan)</label>
+  <input type="file" id="bgImageInput" accept="image/*">
+  <button class="btn-secondary" id="clearBgBtn">Buang Gambar Latar</button>
+  <small class="hint">Warna/gambar ni akan jadi latar untuk keseluruhan poster (termasuk bahagian header/banner), bukan setakat bahagian kalendar sahaja.</small>
+
+  <label>Warna Jalur Alamat &amp; No. Telefon</label>
+  <input type="color" id="addressBarColorInput" value="#00A99D">
+
+  <h2>8. Data &amp; Eksport</h2>
+  <label>Saiz Kertas (untuk eksport)</label>
+  <select id="paperSizeSel">
+    <option value="A3">A3 (420 x 297mm — resolusi tinggi, sesuai print besar)</option>
+    <option value="A4">A4 (297 x 210mm)</option>
+  </select>
+  <div id="dataIOBtns">
+    <button class="btn-secondary" id="saveDataBtn">💾 Simpan Data (.json)</button>
+    <button class="btn-secondary" id="loadDataBtn">📂 Muat Naik Data</button>
+  </div>
+  <input type="file" id="uploadDataInput" accept="application/json">
+  <div class="export-grid">
+    <button class="btn-png" id="exportPngBtn">Muat Turun PNG</button>
+    <button class="btn-pdf" id="exportPdfBtn">Muat Turun PDF</button>
+  </div>
+  <small class="hint">Simpan data .json tiap bulan supaya senang guna semula/roster ustaz bulan depan. Eksport PNG/PDF ikut saiz kertas dipilih.</small>
+</div>
+<div id="sidebarResizer" title="Seret untuk laraskan lebar panel"></div>
+
+<div id="main">
+  <div id="posterWrap">
+    <div id="poster">
+      <div id="headerArea">
+        <div id="posterHeaderBg">
+          <div id="headerLogos">
+            <div class="logo-circle" id="logoMasjidWrap"><img id="logoMasjidImg" class="header-logo"></div>
+            <div class="logo-circle" id="logoJabatanWrap"><img id="logoJabatanImg" class="header-logo"></div>
+          </div>
+          <div id="headerMasjidPhotoWrap">
+            <img id="headerMasjidPhotoImg" class="header-masjid-photo">
+          </div>
+          <div id="headerTitleBlock">
+            <div id="posterMainTitle">Jadual Kuliah Pengajian</div>
+            <div id="posterMasjidName"></div>
+            <div id="monthPillRow">
+              <span id="monthPillLabel">Bulan</span>
+              <div id="monthPillText"></div>
+            </div>
+          </div>
+        </div>
+        <div id="headerAddressBar">
+          <span id="headerAddressText"></span>
+          <span id="headerPhoneText"></span>
+        </div>
+      </div>
+      <div id="dowRow">
+        <div class="dow">Isnin</div>
+        <div class="dow">Selasa</div>
+        <div class="dow">Rabu</div>
+        <div class="dow">Khamis</div>
+        <div class="dow">Jumaat</div>
+        <div class="dow">Sabtu</div>
+        <div class="dow">Ahad</div>
+      </div>
+      <div id="grid"></div>
+    </div>
+  </div>
+</div>
+</div>
+
+<script>
+const MONTH_NAMES = ["JANUARI","FEBRUARI","MAC","APRIL","MEI","JUN","JULAI","OGOS","SEPTEMBER","OKTOBER","NOVEMBER","DISEMBER"];
+
+const DEFAULT_COLORS = {
+  "Kuliah Subuh": "#0076A3",
+  "Kuliah Maghrib": "#ED145B",
+  "Tazkirah Jumaat": "#0076A3",
+  "Ceramah Perdana": "#F5A623",
+  "Kuliah Khas": "#8E44AD",
+  "Tazkirah Khas": "#16A085",
+  "Bacaan Yasin & Tahlil": "#00A99D"
+};
+
+let state = {
+  month: 6, // 0-indexed, default Julai
+  year: 2026,
+  colors: Object.assign({}, DEFAULT_COLORS),
+  entries: {},   // { "5": [ {type,speaker,topic,photo,photoFit} , ... up to 2 ] }
+  banners: {},   // { "4": {img, imgFit, speaker, topic, speakerPhoto, speakerFit} }
+  bg: { color: '#0F2846', image: null, fit: 'cover' },
+  paperSize: 'A3',
+  font: 'Poppins',
+  fontSize: 1,
+  addressBarColor: '#00A99D',
+  profile: { masjidName: '', logoMasjid: null, logoJabatan: null, address: '', phone: '', masjidPhoto: null }
+};
+
+const PROFILE_STORAGE_KEY = 'jkg_profile_v1';
+
+// A-series aspect ratio (width:height = sqrt2:1 landscape)
+const A_RATIO = Math.SQRT2;
+// physical page size in inches (A3 = 16.53 x 11.69in landscape, A4 = 11.69 x 8.27in)
+const PAPER_IN = {
+  A3: {w: 16.53, h: 11.69},
+  A4: {w: 11.69, h: 8.27}
+};
+// px @300dpi, derived from PAPER_IN so the raster export matches the physical page exactly
+const PAPER_PX = {
+  A3: {w: Math.round(PAPER_IN.A3.w * 300), h: Math.round(PAPER_IN.A3.h * 300)},
+  A4: {w: Math.round(PAPER_IN.A4.w * 300), h: Math.round(PAPER_IN.A4.h * 300)}
+};
+
+// ---------- populate month select ----------
+const monthSel = document.getElementById('monthSel');
+MONTH_NAMES.forEach((m,i)=>{
+  const o = document.createElement('option');
+  o.value = i; o.textContent = m;
+  monthSel.appendChild(o);
+});
+monthSel.value = state.month;
+document.getElementById('yearInput').value = state.year;
+document.getElementById('bgColorInput').value = state.bg.color;
+document.getElementById('addressBarColorInput').value = state.addressBarColor;
+document.getElementById('paperSizeSel').value = state.paperSize;
+document.getElementById('fontSel').value = state.font;
+document.getElementById('fontSizeSel').value = state.fontSize;
+document.getElementById('poster').style.setProperty('--poster-font', `'${state.font}'`);
+document.getElementById('headerAddressBar').style.background = state.addressBarColor;
+document.getElementById('poster').style.setProperty('--fs-scale', state.fontSize);
+
+function daysInMonth(y,m){ return new Date(y, m+1, 0).getDate(); }
+
+function refreshDateSelectors(){
+  const n = daysInMonth(state.year, state.month);
+  ['dateSel','bannerDateSel'].forEach(id=>{
+    const sel = document.getElementById(id);
+    sel.innerHTML = '';
+    for(let d=1; d<=n; d++){
+      const o = document.createElement('option');
+      o.value = d; o.textContent = d + ' hb';
+      sel.appendChild(o);
+    }
+  });
+}
+
+// ---------- color pickers ----------
+function buildColorPickers(){
+  const wrap = document.getElementById('colorPickers');
+  wrap.innerHTML = '';
+  Object.keys(state.colors).forEach(type=>{
+    const row = document.createElement('div');
+    row.className = 'swatch-row';
+    row.innerHTML = `<span>${type}</span><input type="color" data-type="${type.replace(/"/g,'&quot;')}" value="${state.colors[type]}">`;
+    wrap.appendChild(row);
+  });
+  wrap.querySelectorAll('input[type=color]').forEach(inp=>{
+    inp.addEventListener('input', e=>{
+      state.colors[e.target.dataset.type] = e.target.value;
+      render();
+    });
+  });
+}
+
+// ---------- helpers ----------
+function escapeHtml(text){
+  if(!text) return '';
+  const map = {'&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":"&#39;"};
+  return String(text).replace(/[&<>"']/g, m=>map[m]);
+}
+
+function isValidImageFile(file){
+  const validTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/webp', 'image/svg+xml'];
+  return file && validTypes.includes(file.type);
+}
+
+function fileToDataUrl(file){
+  return new Promise((resolve,reject)=>{
+    const r = new FileReader();
+    r.onload = ()=>resolve(r.result);
+    r.onerror = reject;
+    r.readAsDataURL(file);
+  });
+}
+
+// Downscales large uploads (e.g. full-res phone photos) before they're kept in memory /
+// localStorage, since the masjid profile is auto-saved to localStorage on every "Create"
+// and browsers cap that at ~5-10MB — an unresized photo or two can blow past it silently.
+function fileToDataUrlResized(file, maxDim){
+  return new Promise((resolve, reject)=>{
+    fileToDataUrl(file).then(dataUrl=>{
+      const img = new Image();
+      img.onerror = ()=>resolve(dataUrl);
+      img.onload = ()=>{
+        if(img.width <= maxDim && img.height <= maxDim){ resolve(dataUrl); return; }
+        const scale = maxDim / Math.max(img.width, img.height);
+        const w = Math.round(img.width * scale);
+        const h = Math.round(img.height * scale);
+        const canvas = document.createElement('canvas');
+        canvas.width = w; canvas.height = h;
+        canvas.getContext('2d').drawImage(img, 0, 0, w, h);
+        resolve(canvas.toDataURL(file.type === 'image/png' ? 'image/png' : 'image/jpeg', 0.85));
+      };
+      img.src = dataUrl;
+    }).catch(reject);
+  });
+}
+
+document.getElementById('typeSel').addEventListener('change', e=>{
+  document.getElementById('customTypeInput').style.display = e.target.value === '__custom__' ? 'block' : 'none';
+});
+
+// ---------- add / edit slot ----------
+let editingSlotRef = null; // {date, index} while editing an existing slot, else null
+let editingSlotExistingPhoto = null;
+
+function resetSlotForm(){
+  document.getElementById('speakerInput').value='';
+  document.getElementById('topicInput').value='';
+  document.getElementById('photoInput').value='';
+  document.getElementById('customTypeInput').value='';
+  document.getElementById('customTypeInput').style.display='none';
+  document.getElementById('typeSel').value = 'Kuliah Subuh';
+  document.getElementById('photoFitSel').value = 'cover';
+  const prev = document.getElementById('photoInputPreview');
+  prev.style.display='none'; prev.removeAttribute('src');
+}
+
+function enterSlotEditMode(date, index){
+  const slot = state.entries[date][index];
+  editingSlotRef = {date, index};
+  editingSlotExistingPhoto = slot.photo || null;
+
+  document.getElementById('dateSel').value = date;
+  const typeSel = document.getElementById('typeSel');
+  const knownTypes = Array.from(typeSel.options).map(o=>o.value);
+  if(knownTypes.includes(slot.type)){
+    typeSel.value = slot.type;
+    document.getElementById('customTypeInput').style.display='none';
+  } else {
+    typeSel.value = '__custom__';
+    document.getElementById('customTypeInput').value = slot.type;
+    document.getElementById('customTypeInput').style.display='block';
+  }
+  document.getElementById('speakerInput').value = slot.speaker || '';
+  document.getElementById('topicInput').value = slot.topic || '';
+  document.getElementById('photoFitSel').value = slot.photoFit || 'cover';
+  document.getElementById('photoInput').value = '';
+  const prev = document.getElementById('photoInputPreview');
+  if(slot.photo){ prev.src = slot.photo; prev.style.display='block'; } else { prev.style.display='none'; prev.removeAttribute('src'); }
+
+  document.getElementById('addSlotBtn').textContent = '💾 Kemaskini Slot';
+  document.getElementById('cancelEditSlotBtn').style.display='block';
+  renderEntryList();
+  document.getElementById('addSlotBtn').scrollIntoView({behavior:'smooth', block:'center'});
+}
+
+function exitSlotEditMode(){
+  editingSlotRef = null;
+  editingSlotExistingPhoto = null;
+  document.getElementById('addSlotBtn').textContent = '+ Tambah Slot ke Jadual';
+  document.getElementById('cancelEditSlotBtn').style.display='none';
+}
+
+document.getElementById('cancelEditSlotBtn').addEventListener('click', ()=>{
+  exitSlotEditMode();
+  resetSlotForm();
+  renderEntryList();
+});
+
+document.getElementById('addSlotBtn').addEventListener('click', async ()=>{
+  const date = document.getElementById('dateSel').value;
+  let type = document.getElementById('typeSel').value;
+  let customLabel = '';
+  if(type === '__custom__'){
+    customLabel = document.getElementById('customTypeInput').value.trim();
+    if(!customLabel){ alert('Sila isi nama tajuk custom.'); return; }
+    if(!state.colors[customLabel]) state.colors[customLabel] = '#34495E';
+    type = customLabel;
+  }
+  const speaker = document.getElementById('speakerInput').value.trim();
+  const topic = document.getElementById('topicInput').value.trim();
+  const photoFile = document.getElementById('photoInput').files[0];
+  const photoFit = document.getElementById('photoFitSel').value;
+  let photo = editingSlotRef ? editingSlotExistingPhoto : null;
+  if(photoFile) photo = await fileToDataUrl(photoFile);
+
+  if(editingSlotRef){
+    const { date: oldDate, index: oldIdx } = editingSlotRef;
+    if(date === oldDate){
+      state.entries[oldDate][oldIdx] = {type, speaker, topic, photo, photoFit};
+    } else {
+      if(!state.entries[date]) state.entries[date] = [];
+      if(state.entries[date].length >= 2){
+        alert('Kotak tarikh baru ni dah penuh (maksimum 2 slot). Pilih tarikh lain atau padam salah satu slot dulu.');
+        return;
+      }
+      state.entries[oldDate].splice(oldIdx,1);
+      if(state.entries[oldDate].length===0) delete state.entries[oldDate];
+      state.entries[date].push({type, speaker, topic, photo, photoFit});
+    }
+    exitSlotEditMode();
+  } else {
+    if(!state.entries[date]) state.entries[date] = [];
+    if(state.entries[date].length >= 2){
+      alert('Kotak tarikh ini dah penuh (maksimum 2 slot). Padam salah satu slot dulu.');
+      return;
+    }
+    state.entries[date].push({type, speaker, topic, photo, photoFit});
+  }
+
+  resetSlotForm();
+  buildColorPickers();
+  renderEntryList();
+  render();
+});
+
+// ---------- add / edit banner ----------
+let editingBannerDate = null; // original date while editing an existing banner, else null
+let editingBannerExistingImg = null;
+let editingBannerExistingSpeakerPhoto = null;
+
+function resetBannerForm(){
+  document.getElementById('bannerImgInput').value='';
+  document.getElementById('bannerSpeakerInput').value='';
+  document.getElementById('bannerTopicInput').value='';
+  document.getElementById('bannerSpeakerPhotoInput').value='';
+  document.getElementById('bannerImgFitSel').value='cover';
+  document.getElementById('bannerSpeakerFitSel').value='cover';
+  const p1 = document.getElementById('bannerImgPreview'); p1.style.display='none'; p1.removeAttribute('src');
+  const p2 = document.getElementById('bannerSpeakerPhotoPreview'); p2.style.display='none'; p2.removeAttribute('src');
+}
+
+function enterBannerEditMode(date){
+  const b = state.banners[date];
+  editingBannerDate = date;
+  editingBannerExistingImg = b.img;
+  editingBannerExistingSpeakerPhoto = b.speakerPhoto || null;
+
+  document.getElementById('bannerDateSel').value = date;
+  document.getElementById('bannerImgFitSel').value = b.imgFit || 'cover';
+  document.getElementById('bannerSpeakerInput').value = b.speaker || '';
+  document.getElementById('bannerTopicInput').value = b.topic || '';
+  document.getElementById('bannerSpeakerFitSel').value = b.speakerFit || 'cover';
+  document.getElementById('bannerImgInput').value='';
+  document.getElementById('bannerSpeakerPhotoInput').value='';
+
+  const p1 = document.getElementById('bannerImgPreview');
+  if(b.img){ p1.src=b.img; p1.style.display='block'; } else { p1.style.display='none'; p1.removeAttribute('src'); }
+  const p2 = document.getElementById('bannerSpeakerPhotoPreview');
+  if(b.speakerPhoto){ p2.src=b.speakerPhoto; p2.style.display='block'; } else { p2.style.display='none'; p2.removeAttribute('src'); }
+
+  document.getElementById('addBannerBtn').textContent = '💾 Kemaskini Banner';
+  document.getElementById('cancelEditBannerBtn').style.display='block';
+  renderEntryList();
+  document.getElementById('addBannerBtn').scrollIntoView({behavior:'smooth', block:'center'});
+}
+
+function exitBannerEditMode(){
+  editingBannerDate = null;
+  editingBannerExistingImg = null;
+  editingBannerExistingSpeakerPhoto = null;
+  document.getElementById('addBannerBtn').textContent = '+ Jadikan Banner Penuh';
+  document.getElementById('cancelEditBannerBtn').style.display='none';
+}
+
+document.getElementById('cancelEditBannerBtn').addEventListener('click', ()=>{
+  exitBannerEditMode();
+  resetBannerForm();
+  renderEntryList();
+});
+
+document.getElementById('addBannerBtn').addEventListener('click', async ()=>{
+  const date = document.getElementById('bannerDateSel').value;
+  const imgFile = document.getElementById('bannerImgInput').files[0];
+  if(!imgFile && !editingBannerDate){ alert('Sila pilih gambar poster/banner.'); return; }
+  let img = editingBannerDate ? editingBannerExistingImg : null;
+  if(imgFile) img = await fileToDataUrl(imgFile);
+  if(!img){ alert('Sila pilih gambar poster/banner.'); return; }
+
+  const imgFit = document.getElementById('bannerImgFitSel').value;
+  const speaker = document.getElementById('bannerSpeakerInput').value.trim();
+  const topic = document.getElementById('bannerTopicInput').value.trim();
+  const spFile = document.getElementById('bannerSpeakerPhotoInput').files[0];
+  const speakerFit = document.getElementById('bannerSpeakerFitSel').value;
+  let speakerPhoto = editingBannerDate ? editingBannerExistingSpeakerPhoto : null;
+  if(spFile) speakerPhoto = await fileToDataUrl(spFile);
+
+  if(editingBannerDate){
+    if(editingBannerDate !== date){
+      if(state.banners[date] && !confirm(`Tarikh ${date} hb dah ada banner. Timpa banner sedia ada?`)) return;
+      delete state.banners[editingBannerDate];
+    }
+    exitBannerEditMode();
+  }
+  state.banners[date] = {img, imgFit, speaker, topic, speakerPhoto, speakerFit};
+
+  resetBannerForm();
+  renderEntryList();
+  render();
+});
+
+function renderEntryList(){
+  const wrap = document.getElementById('entryList');
+  wrap.innerHTML = '';
+  const dates = Object.keys(state.entries).map(Number).sort((a,b)=>a-b);
+  const bannerDates = Object.keys(state.banners).map(Number).sort((a,b)=>a-b);
+  if(dates.length===0 && bannerDates.length===0){
+    wrap.innerHTML = '<div id="emptyState">Belum ada slot ditambah lagi.</div>';
+    return;
+  }
+  dates.forEach(d=>{
+    state.entries[d].forEach((slot, idx)=>{
+      const div = document.createElement('div');
+      const isEditing = editingSlotRef && editingSlotRef.date === d && editingSlotRef.index === idx;
+      div.className = 'entry-item' + (isEditing ? ' editing' : '');
+      div.innerHTML = `<div class="eh"><b>${d} hb — ${slot.type}</b><span class="eh-btns"><button class="btn-edit">✎ Edit</button><button class="btn-danger">Padam</button></span></div>
+      <div class="em">${slot.speaker||'(tiada nama)'} ${slot.topic? ' • '+slot.topic:''}</div>`;
+      div.querySelector('.btn-edit').addEventListener('click', ()=>{
+        enterSlotEditMode(d, idx);
+      });
+      div.querySelector('.btn-danger').addEventListener('click', ()=>{
+        state.entries[d].splice(idx,1);
+        if(state.entries[d].length===0) delete state.entries[d];
+        if(editingSlotRef && editingSlotRef.date === d){
+          if(editingSlotRef.index === idx){ exitSlotEditMode(); resetSlotForm(); }
+          else if(editingSlotRef.index > idx){ editingSlotRef.index -= 1; }
+        }
+        renderEntryList(); render();
+      });
+      wrap.appendChild(div);
+    });
+  });
+  bannerDates.forEach(d=>{
+    const b = state.banners[d];
+    const div = document.createElement('div');
+    div.className = 'entry-item' + (editingBannerDate === d ? ' editing' : '');
+    div.innerHTML = `<div class="eh"><b>${d} hb — 🖼 Banner Penuh</b><span class="eh-btns"><button class="btn-edit">✎ Edit</button><button class="btn-danger">Padam</button></span></div>
+    <div class="em">${b.speaker||''} ${b.topic? ' • '+b.topic:''}</div>`;
+    div.querySelector('.btn-edit').addEventListener('click', ()=>{
+      enterBannerEditMode(d);
+    });
+    div.querySelector('.btn-danger').addEventListener('click', ()=>{
+      delete state.banners[d];
+      if(editingBannerDate === d){ exitBannerEditMode(); resetBannerForm(); }
+      renderEntryList(); render();
+    });
+    wrap.appendChild(div);
+  });
+}
+
+// ---------- main render ----------
+function slotBlockHTML(slot){
+  const color = state.colors[slot.type] || '#34495E';
+  if(slot.type === 'Bacaan Yasin & Tahlil'){
+    return `
+      <div class="slot slot-fill">
+        <div class="slot-event" style="background:${color}">
+          <div class="label">${escapeHtml(slot.topic) || 'BACAAN YASIN<br>&amp; TAHLIL'}</div>
+        </div>
+      </div>`;
+  }
+  const fit = slot.photoFit || 'cover';
+  const photoStyle = slot.photo ? `background-image:url('${slot.photo}');background-size:${fit};` : `background:${color}`;
+  return `
+    <div class="slot">
+      <div class="slot-title">${escapeHtml(slot.type)}</div>
+      <div class="slot-bar" style="background:${color}">
+        <div class="slot-photo" style="${photoStyle}"></div>
+        <div class="slot-text">
+          ${slot.topic ? `<div class="slot-topic">${escapeHtml(slot.topic)}</div>` : ''}
+          <div class="slot-name">${escapeHtml(slot.speaker) || '&nbsp;'}</div>
+        </div>
+      </div>
+    </div>`;
+}
+
+function render(){
+  document.getElementById('monthPillText').textContent = MONTH_NAMES[state.month] + ' ' + state.year;
+
+  // background
+  const poster = document.getElementById('poster');
+  poster.style.backgroundColor = state.bg.color;
+  poster.style.backgroundImage = state.bg.image ? `url('${state.bg.image}')` : 'none';
+  poster.style.backgroundSize = state.bg.fit;
+
+  const n = daysInMonth(state.year, state.month);
+  const firstJsDay = new Date(state.year, state.month, 1).getDay(); // 0=Sun
+  const offset = (firstJsDay + 6) % 7; // Isnin=0
+  const totalCells = Math.ceil((offset + n) / 7) * 7;
+  let numRows = totalCells / 7;
+
+  const grid = document.getElementById('grid');
+  grid.innerHTML = '';
+
+  function makeDayCell(dayNum){
+    if(state.banners[dayNum]){
+      const b = state.banners[dayNum];
+      const c = document.createElement('div');
+      c.className = 'cell';
+      const fit = b.imgFit || 'cover';
+      const spFit = b.speakerFit || 'cover';
+      c.innerHTML = `
+        <div class="banner-img" style="background-image:url('${b.img}');background-size:${fit};">
+          <div class="datebadge">${dayNum}</div>
+          ${(b.speaker||b.topic) ? `<div class="banner-caption"><div class="bn">${escapeHtml(b.speaker)||''}</div><div class="bt">${escapeHtml(b.topic)||''}</div></div>`:''}
+          ${b.speakerPhoto ? `<div class="banner-speaker" style="background-image:url('${b.speakerPhoto}');background-size:${spFit};"></div>`:''}
+        </div>`;
+      return c;
+    }
+    const c = document.createElement('div');
+    const slots = state.entries[dayNum] || [];
+    c.className = 'cell' + (slots.length === 2 ? ' two-slots' : slots.length === 1 ? ' one-slot' : '');
+    c.innerHTML = `<div class="datebadge">${dayNum}</div>` + slots.map(slotBlockHTML).join('');
+    return c;
+  }
+
+  // If the final row would only hold a couple of trailing days (e.g. 31hb jatuh Isnin),
+  // fold those days up into row 1's unused leading blanks instead of wasting a whole
+  // extra row on 1-2 boxes (which shrinks every other row). Only kicks in when the
+  // leading blank space in row 1 is big enough to hold the trailing day(s).
+  const lastRowFirstDay = (numRows - 1) * 7 - offset + 1;
+  const lastRowDayCount = n - lastRowFirstDay + 1;
+  const canCompact = numRows >= 2 && offset > 0 && lastRowDayCount <= offset;
+
+  if(canCompact){
+    numRows -= 1;
+    grid.style.gridTemplateRows = `repeat(${numRows}, 1fr)`;
+    const overflowStart = lastRowFirstDay; // first day of the (now removed) last row
+    // place the overflow day(s) leftmost, sharing row 1 with day 1/2/etc.
+    for(let d = overflowStart; d <= n; d++){
+      grid.appendChild(makeDayCell(d));
+    }
+    const remainingBlanks = offset - lastRowDayCount;
+    if(remainingBlanks > 0){
+      const c = document.createElement('div');
+      c.className = 'cell empty-span';
+      c.style.gridColumn = `span ${remainingBlanks}`;
+      grid.appendChild(c);
+    }
+    for(let d = 1; d < overflowStart; d++){
+      grid.appendChild(makeDayCell(d));
+    }
+    return;
+  }
+
+  grid.style.gridTemplateRows = `repeat(${numRows}, 1fr)`;
+
+  // leading empty span (before day 1, only occurs in row 1)
+  if(offset > 0){
+    const c = document.createElement('div');
+    c.className = 'cell empty-span';
+    c.style.gridColumn = `span ${offset}`;
+    grid.appendChild(c);
+  }
+
+  for(let d=1; d<=n; d++){
+    grid.appendChild(makeDayCell(d));
+  }
+
+  // trailing empty span (after last day, only occurs in final row)
+  const trailing = totalCells - offset - n;
+  if(trailing > 0){
+    const c = document.createElement('div');
+    c.className = 'cell empty-span';
+    c.style.gridColumn = `span ${trailing}`;
+    grid.appendChild(c);
+  }
+}
+
+// ---------- month/year change ----------
+function cancelAnyEditInProgress(){
+  if(editingSlotRef){ exitSlotEditMode(); resetSlotForm(); }
+  if(editingBannerDate){ exitBannerEditMode(); resetBannerForm(); }
+  renderEntryList();
+}
+monthSel.addEventListener('change', ()=>{ state.month = parseInt(monthSel.value); refreshDateSelectors(); cancelAnyEditInProgress(); render(); });
+document.getElementById('yearInput').addEventListener('change', (e)=>{ state.year = parseInt(e.target.value)||state.year; refreshDateSelectors(); cancelAnyEditInProgress(); render(); });
+
+// ---------- background controls ----------
+document.getElementById('bgColorInput').addEventListener('input', e=>{ state.bg.color = e.target.value; render(); });
+document.getElementById('bgFitSel').addEventListener('change', e=>{ state.bg.fit = e.target.value; render(); });
+document.getElementById('addressBarColorInput').addEventListener('input', e=>{
+  state.addressBarColor = e.target.value;
+  document.getElementById('headerAddressBar').style.background = state.addressBarColor;
+});
+document.getElementById('bgImageInput').addEventListener('change', async e=>{
+  const f = e.target.files[0];
+  if(!f) return;
+  state.bg.image = await fileToDataUrl(f);
+  render();
+});
+document.getElementById('clearBgBtn').addEventListener('click', ()=>{
+  state.bg.image = null;
+  document.getElementById('bgImageInput').value='';
+  render();
+});
+document.getElementById('paperSizeSel').addEventListener('change', e=>{ state.paperSize = e.target.value; });
+document.getElementById('fontSel').addEventListener('change', e=>{
+  state.font = e.target.value;
+  document.getElementById('poster').style.setProperty('--poster-font', `'${state.font}'`);
+});
+document.getElementById('fontSizeSel').addEventListener('change', e=>{
+  state.fontSize = parseFloat(e.target.value);
+  document.getElementById('poster').style.setProperty('--fs-scale', state.fontSize);
+  fitPosterTitle();
+});
+
+// Title text is fixed ("Jadual Kuliah Pengajian") but the space it has to live in isn't —
+// it shrinks whenever logos or the mosque photo are shown. Rather than a fixed font-size
+// that overflows the canvas in the worst case, shrink it just enough to always fit on one line.
+function fitPosterTitle(){
+  const el = document.getElementById('posterMainTitle');
+  const container = document.getElementById('headerTitleBlock');
+  if(!el || !container) return;
+  const baseSize = 45 * (state.fontSize || 1);
+  let size = baseSize;
+  el.style.fontSize = size + 'px';
+  let guard = 0;
+  while(el.scrollWidth > container.clientWidth && size > 14 && guard < 80){
+    size -= 0.5;
+    el.style.fontSize = size + 'px';
+    guard++;
+  }
+}
+if(document.fonts && document.fonts.ready){
+  Promise.race([
+    document.fonts.ready,
+    new Promise(r=>setTimeout(r, 3000))
+  ]).then(fitPosterTitle).catch(()=>fitPosterTitle());
+}
+
+// ---------- save / load JSON ----------
+document.getElementById('saveDataBtn').addEventListener('click', ()=>{
+  const blob = new Blob([JSON.stringify(state,null,2)], {type:'application/json'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = `jadual-kuliah-${MONTH_NAMES[state.month]}-${state.year}.json`;
+  a.click();
+});
+document.getElementById('loadDataBtn').addEventListener('click', ()=>{
+  document.getElementById('uploadDataInput').click();
+});
+document.getElementById('uploadDataInput').addEventListener('change', async (e)=>{
+  const file = e.target.files[0];
+  if(!file) return;
+  const text = await file.text();
+  try{
+    const loaded = JSON.parse(text);
+    state = Object.assign({colors:{...DEFAULT_COLORS}, entries:{}, banners:{}, bg:{color:'#0F2846',image:null,fit:'cover'}, paperSize:'A3', font:'Poppins', fontSize:1, addressBarColor:'#00A99D', profile:{masjidName:'',logoMasjid:null,logoJabatan:null,address:'',phone:'',masjidPhoto:null}}, loaded);
+    monthSel.value = state.month;
+    document.getElementById('yearInput').value = state.year;
+    document.getElementById('bgColorInput').value = state.bg.color;
+    document.getElementById('bgFitSel').value = state.bg.fit;
+    document.getElementById('addressBarColorInput').value = state.addressBarColor;
+    document.getElementById('headerAddressBar').style.background = state.addressBarColor;
+    document.getElementById('paperSizeSel').value = state.paperSize;
+    document.getElementById('fontSel').value = state.font;
+    document.getElementById('fontSizeSel').value = state.fontSize;
+    document.getElementById('poster').style.setProperty('--poster-font', `'${state.font}'`);
+    document.getElementById('poster').style.setProperty('--fs-scale', state.fontSize);
+    refreshDateSelectors();
+    buildColorPickers();
+    renderEntryList();
+    applyProfileToHeader();
+    render();
+  }catch(err){
+    alert('Fail data tak sah / rosak.');
+  }
+});
+
+// ---------- export ----------
+async function doExportCanvas(){
+  if(typeof html2canvas === 'undefined'){
+    alert('Fungsi eksport perlukan sambungan internet (untuk muat naskah html2canvas kali pertama). Sila pastikan komputer disambung internet, refresh halaman ni, dan cuba lagi.');
+    throw new Error('html2canvas not loaded');
+  }
+  const target = PAPER_PX[state.paperSize] || PAPER_PX.A3;
+  const posterEl = document.getElementById('poster');
+  const scale = target.w / posterEl.offsetWidth;
+  return await html2canvas(posterEl, {scale, useCORS:true, backgroundColor:'#0F2846'});
+}
+document.getElementById('exportPngBtn').addEventListener('click', async ()=>{
+  const btn = document.getElementById('exportPngBtn'); const old = btn.textContent; btn.textContent='Sedang jana...'; btn.disabled=true;
+  try{
+    const canvas = await doExportCanvas();
+    const a = document.createElement('a');
+    a.href = canvas.toDataURL('image/png');
+    a.download = `jadual-kuliah-${MONTH_NAMES[state.month]}-${state.year}-${state.paperSize}.png`;
+    a.click();
+  } finally { btn.textContent=old; btn.disabled=false; }
+});
+document.getElementById('exportPdfBtn').addEventListener('click', async ()=>{
+  const btn = document.getElementById('exportPdfBtn'); const old = btn.textContent; btn.textContent='Sedang jana...'; btn.disabled=true;
+  try{
+    const canvas = await doExportCanvas();
+    const imgData = canvas.toDataURL('image/jpeg', 0.92);
+    const { jsPDF } = window.jspdf;
+    const dims = PAPER_IN[state.paperSize] || PAPER_IN.A3;
+    const pdf = new jsPDF({orientation:'l', unit:'in', format:[dims.w, dims.h]});
+    pdf.addImage(imgData, 'JPEG', 0, 0, dims.w, dims.h);
+    pdf.save(`jadual-kuliah-${MONTH_NAMES[state.month]}-${state.year}-${state.paperSize}.pdf`);
+  } finally { btn.textContent=old; btn.disabled=false; }
+});
+
+// ---------- landing screen / masjid profile ----------
+function applyProfileToHeader(){
+  document.getElementById('posterMasjidName').textContent = state.profile.masjidName || '';
+  document.getElementById('profileBarName').textContent = state.profile.masjidName || '';
+
+  const logoM = document.getElementById('logoMasjidImg');
+  const wrapM = document.getElementById('logoMasjidWrap');
+  const hasM = !!state.profile.logoMasjid;
+  if(hasM){ logoM.src = state.profile.logoMasjid; } else { logoM.removeAttribute('src'); }
+  wrapM.style.display = hasM ? 'flex' : 'none';
+
+  const logoJ = document.getElementById('logoJabatanImg');
+  const wrapJ = document.getElementById('logoJabatanWrap');
+  const hasJ = !!state.profile.logoJabatan;
+  if(hasJ){ logoJ.src = state.profile.logoJabatan; } else { logoJ.removeAttribute('src'); }
+  wrapJ.style.display = hasJ ? 'flex' : 'none';
+
+  const photoWrap = document.getElementById('headerMasjidPhotoWrap');
+  const photoImg = document.getElementById('headerMasjidPhotoImg');
+  if(state.profile.masjidPhoto){
+    photoImg.src = state.profile.masjidPhoto;
+    photoWrap.style.display = 'block';
+  } else {
+    photoImg.removeAttribute('src');
+    photoWrap.style.display = 'none';
+  }
+
+  const addrBar = document.getElementById('headerAddressBar');
+  const addrText = document.getElementById('headerAddressText');
+  const phoneText = document.getElementById('headerPhoneText');
+  const hasAddr = !!(state.profile.address && state.profile.address.trim());
+  const hasPhone = !!(state.profile.phone && state.profile.phone.trim());
+  addrText.textContent = state.profile.address || '';
+  phoneText.textContent = hasPhone ? ('No. Telefon: ' + state.profile.phone) : '';
+  addrText.style.display = hasAddr ? 'inline' : 'none';
+  phoneText.style.display = hasPhone ? 'inline' : 'none';
+  addrBar.style.display = (hasAddr || hasPhone) ? 'flex' : 'none';
+
+  fitPosterTitle();
+}
+
+function showApp(){
+  document.getElementById('landingScreen').style.display = 'none';
+  document.getElementById('appScreen').style.display = 'flex';
+  // headerTitleBlock has zero width while appScreen is hidden, so any title-fit measurement
+  // taken before this point was wrong — redo it now that the poster is actually visible
+  fitPosterTitle();
+}
+function showLanding(){
+  document.getElementById('appScreen').style.display = 'none';
+  document.getElementById('landingScreen').style.display = 'flex';
+}
+
+document.getElementById('landingLogoMasjid').addEventListener('change', async e=>{
+  const f = e.target.files[0];
+  if(!f) return;
+  if(!isValidImageFile(f)){ alert('Sila muat naik fail imej sahaja (JPG, PNG, GIF, atau WebP).'); e.target.value=''; return; }
+  const url = await fileToDataUrl(f);
+  const img = document.getElementById('landingLogoMasjidPreview');
+  img.src = url; img.style.display = 'block';
+});
+document.getElementById('landingLogoJabatan').addEventListener('change', async e=>{
+  const f = e.target.files[0];
+  if(!f) return;
+  if(!isValidImageFile(f)){ alert('Sila muat naik fail imej sahaja (JPG, PNG, GIF, atau WebP).'); e.target.value=''; return; }
+  const url = await fileToDataUrl(f);
+  const img = document.getElementById('landingLogoJabatanPreview');
+  img.src = url; img.style.display = 'block';
+});
+document.getElementById('landingMasjidPhoto').addEventListener('change', async e=>{
+  const f = e.target.files[0];
+  if(!f) return;
+  if(!isValidImageFile(f)){ alert('Sila muat naik fail imej sahaja (JPG, PNG, GIF, atau WebP).'); e.target.value=''; return; }
+  const url = await fileToDataUrl(f);
+  const img = document.getElementById('landingMasjidPhotoPreview');
+  img.src = url; img.style.display = 'block';
+});
+
+document.getElementById('landingCreateBtn').addEventListener('click', async ()=>{
+  const name = document.getElementById('landingMasjidName').value.trim();
+  if(!name){ alert('Sila isi nama masjid/surau/institut dahulu.'); return; }
+
+  const createBtn = document.getElementById('landingCreateBtn');
+  const oldLabel = createBtn.textContent;
+  createBtn.textContent = 'Sedang proses...'; createBtn.disabled = true;
+  try{
+    const logoMasjidFile = document.getElementById('landingLogoMasjid').files[0];
+    const logoJabatanFile = document.getElementById('landingLogoJabatan').files[0];
+    const masjidPhotoFile = document.getElementById('landingMasjidPhoto').files[0];
+
+    if(logoMasjidFile && !isValidImageFile(logoMasjidFile)){ alert('Logo Masjid bukan fail imej yang sah.'); createBtn.textContent=oldLabel; createBtn.disabled=false; return; }
+    if(logoJabatanFile && !isValidImageFile(logoJabatanFile)){ alert('Logo Jabatan bukan fail imej yang sah.'); createBtn.textContent=oldLabel; createBtn.disabled=false; return; }
+    if(masjidPhotoFile && !isValidImageFile(masjidPhotoFile)){ alert('Gambar Masjid bukan fail imej yang sah.'); createBtn.textContent=oldLabel; createBtn.disabled=false; return; }
+
+    state.profile.masjidName = name;
+    state.profile.address = document.getElementById('landingAddress').value.trim();
+    state.profile.phone = document.getElementById('landingPhone').value.trim();
+    // logos capped at 500px (shown as small circle badges) and the mosque photo at 1600px —
+    // keeps profile images well under the localStorage quota without a visible quality loss
+    if(logoMasjidFile) state.profile.logoMasjid = await fileToDataUrlResized(logoMasjidFile, 500);
+    if(logoJabatanFile) state.profile.logoJabatan = await fileToDataUrlResized(logoJabatanFile, 500);
+    if(masjidPhotoFile) state.profile.masjidPhoto = await fileToDataUrlResized(masjidPhotoFile, 1600);
+
+    try{
+      localStorage.setItem(PROFILE_STORAGE_KEY, JSON.stringify(state.profile));
+    }catch(storageErr){
+      alert('Gambar yang dimuat naik terlalu besar untuk disimpan dalam storan pelayar. Profil ni akan digunakan sekarang, tapi tak akan disimpan selepas anda tutup/refresh halaman. Cuba muat naik gambar bersaiz lebih kecil supaya ia boleh disimpan kekal.');
+    }
+    applyProfileToHeader();
+    showApp();
+  }catch(err){
+    alert('Gagal memproses gambar yang dimuat naik. Sila cuba fail gambar lain (format JPG/PNG biasa) dan cuba lagi.');
+  } finally {
+    createBtn.textContent = oldLabel; createBtn.disabled = false;
+  }
+});
+
+document.getElementById('editProfileBtn').addEventListener('click', ()=>{
+  document.getElementById('landingMasjidName').value = state.profile.masjidName || '';
+  document.getElementById('landingAddress').value = state.profile.address || '';
+  document.getElementById('landingPhone').value = state.profile.phone || '';
+  const pM = document.getElementById('landingLogoMasjidPreview');
+  if(state.profile.logoMasjid){ pM.src = state.profile.logoMasjid; pM.style.display='block'; } else { pM.style.display='none'; }
+  const pJ = document.getElementById('landingLogoJabatanPreview');
+  if(state.profile.logoJabatan){ pJ.src = state.profile.logoJabatan; pJ.style.display='block'; } else { pJ.style.display='none'; }
+  const pP = document.getElementById('landingMasjidPhotoPreview');
+  if(state.profile.masjidPhoto){ pP.src = state.profile.masjidPhoto; pP.style.display='block'; } else { pP.style.display='none'; }
+  document.getElementById('landingLogoMasjid').value = '';
+  document.getElementById('landingLogoJabatan').value = '';
+  document.getElementById('landingMasjidPhoto').value = '';
+  showLanding();
+});
+
+// ---------- resizable sidebar ----------
+(function initSidebarResizer(){
+  const SIDEBAR_WIDTH_KEY = 'jkg_sidebar_width_v1';
+  const sidebar = document.getElementById('sidebar');
+  const resizer = document.getElementById('sidebarResizer');
+  const MIN_W = 260, MAX_W = 640, KEYBOARD_STEP = 20;
+
+  const savedWidth = parseInt(localStorage.getItem(SIDEBAR_WIDTH_KEY), 10);
+  if(savedWidth && savedWidth >= MIN_W && savedWidth <= MAX_W){
+    sidebar.style.width = savedWidth + 'px';
+  }
+
+  resizer.setAttribute('tabindex', '0');
+  resizer.style.outline = 'none';
+
+  let dragging = false;
+  resizer.addEventListener('pointerdown', e=>{
+    dragging = true;
+    resizer.classList.add('dragging');
+    resizer.setPointerCapture(e.pointerId);
+    document.body.style.userSelect = 'none';
+    document.body.style.cursor = 'col-resize';
+  });
+  resizer.addEventListener('pointermove', e=>{
+    if(!dragging) return;
+    const sidebarLeft = sidebar.getBoundingClientRect().left;
+    let w = e.clientX - sidebarLeft;
+    w = Math.max(MIN_W, Math.min(MAX_W, w));
+    sidebar.style.width = w + 'px';
+  });
+  function stopDrag(e){
+    if(!dragging) return;
+    dragging = false;
+    resizer.classList.remove('dragging');
+    document.body.style.userSelect = '';
+    document.body.style.cursor = '';
+    localStorage.setItem(SIDEBAR_WIDTH_KEY, parseInt(sidebar.style.width, 10));
+  }
+  resizer.addEventListener('pointerup', stopDrag);
+  resizer.addEventListener('pointercancel', stopDrag);
+
+  resizer.addEventListener('keydown', e=>{
+    const currentWidth = parseInt(sidebar.style.width, 10) || 390;
+    let newWidth = currentWidth;
+    if(e.key === 'ArrowRight') newWidth = Math.min(MAX_W, currentWidth + KEYBOARD_STEP);
+    else if(e.key === 'ArrowLeft') newWidth = Math.max(MIN_W, currentWidth - KEYBOARD_STEP);
+    else return;
+    e.preventDefault();
+    sidebar.style.width = newWidth + 'px';
+    localStorage.setItem(SIDEBAR_WIDTH_KEY, newWidth);
+  });
+
+  resizer.addEventListener('focus', ()=>resizer.style.outline='2px solid var(--navy)');
+  resizer.addEventListener('blur', ()=>resizer.style.outline='none');
+})();
+
+// ---------- init ----------
+refreshDateSelectors();
+buildColorPickers();
+renderEntryList();
+render();
+
+(function initProfileGate(){
+  const saved = localStorage.getItem(PROFILE_STORAGE_KEY);
+  if(saved){
+    try{
+      state.profile = Object.assign({masjidName:'',logoMasjid:null,logoJabatan:null,address:'',phone:'',masjidPhoto:null}, JSON.parse(saved));
+      applyProfileToHeader();
+      showApp();
+    }catch(e){
+      showLanding();
+    }
+  } else {
+    showLanding();
+  }
+})();
+</script>
+</body>
+</html>

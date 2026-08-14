@@ -1,0 +1,26 @@
+# OS Files
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+*~
+
+# IDE & Editor
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+.vs/
+
+# Node (jika ada future build tools)
+node_modules/
+npm-debug.log
+yarn-error.log
+
+# Local files
+.claude/settings.local.json
+*.local.json
+
+# Temporary files
+.temp/
+tmp/
