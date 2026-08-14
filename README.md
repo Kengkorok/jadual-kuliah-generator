@@ -8,7 +8,7 @@
 
 ## 🕌 Jadual Kuliah Generator — Panduan Pengguna
 
-Alat pembuatan jadual kuliah interaktif untuk masjid, surau, dan institusi pengajian Islam. Jana poster kuliah bulanan secara profesional dengan mudah — hanya perlukan nama penceramah, kitab/tajuk, dan jenis kuliah.
+Alat jana jadual kuliah interaktif untuk masjid, surau, dan institusi pengajian Islam. Jana poster kuliah bulanan secara profesional dengan mudah — hanya perlukan nama penceramah, kitab/tajuk, dan jenis kuliah.
 
 ### ✨ Ciri-Ciri
 
@@ -16,7 +16,7 @@ Alat pembuatan jadual kuliah interaktif untuk masjid, surau, dan institusi penga
 - **Tanpa Perlu Setup** — Buka fail HTML sahaja, tak perlu install apa-apa
 - **Penyimpanan Lokal** — Data tersimpan di peranti anda sendiri (browser localStorage)
 - **Pelbagai Jenis Kuliah** — Kuliah Subuh, Kuliah Maghrib, Tazkirah Jumaat, Ceramah Perdana, Kuliah Khas, Tazkirah Khas, Bacaan Yasin & Tahlil, atau custom tajuk
-- **Logo & Gambar** — Muat naik logo masjid, logo jabatan, dan gambar masjid untuk personalisasi
+- **Logo & Gambar** — Muat naik logo masjid, logo jabatan, dan gambar masjid ikut personaliti premis anda
 - **Program Banner Penuh** — Buat program utama/banner yang memenuhi seluruh kotak tarikh
 - **Export Profesional** — Hasilkan poster dalam format PNG atau PDF bersaiz A3/A4 dengan resolusi tinggi
 - **Ubahsuai Warna** — Pilih warna untuk setiap jenis kuliah
@@ -83,7 +83,7 @@ Alat pembuatan jadual kuliah interaktif untuk masjid, surau, dan institusi penga
 - **A4** (210 x 297mm): Standard, lebih mudah cetak
 
 **Program Banner Penuh**
-- Guna untuk acara besar: Seminar, Workshop, Kolaqiah, Haflah Khatam Al-Quran
+- Guna untuk program besar: Seminar, Workshop, Forum Perdana, Haflah Khatam Al-Quran
 - Banner memenuhi seluruh kotak tarikh, boleh ada gambar penceramah kecil di sudut
 
 **Fon Latar Belakang**
@@ -130,19 +130,20 @@ Alat pembuatan jadual kuliah interaktif untuk masjid, surau, dan institusi penga
 - Profil masjid perlu disimpan (localStorage)
 - Jadual kuliah tidak disimpan automatik — gunakan "💾 Simpan Data" sebelum tutup
 
-### 📱 Pergunaan di Mobile
+### 📱 Penggunaan di Smartphone
 
 - Aplikasi ini disediakan untuk desktop/tablet
 - Boleh diakses di mobile tetapi antara muka mungkin tidak optimal
 - Lebih baik gunakan desktop untuk export yang berkualiti tinggi
+- Disarankan guna laptop/desktop untuk experience yang lebih padu
 
-### 📄 Lisensi
+### 📄 Lesen
 
 GNU General Public License v3 (GPLv3) — Lihat fail LICENSE untuk maklumat lengkap.
 
 ### 🤝 Sumbangan
 
-Laporan bug, cadangan ciri, atau pull request amat diterima! 
+Laporkan bug, cadangan ciri, atau pull request amat diterima! 
 
 **Cara melaporkan bug:**
 1. Buka Issues di GitHub
@@ -155,10 +156,10 @@ Laporan bug, cadangan ciri, atau pull request amat diterima!
 J: Ya, di bawah GPLv3. Jika anda ubahsuai kod, ubahsuaian mesti turut open-source.
 
 **P: Adakah data saya selamat?**
-J: Ya, semua data disimpan **LOKAL di peranti anda** sahaja. Tiada data dihantar ke pelayan/cloud.
+J: Ya, semua data disimpan **LOKAL di peranti anda** sahaja. Tiada data dihantar ke server/cloud.
 
-**P: Boleh kah saya gunakan tanpa internet?**
-J: Boleh, TETAPI export PNG/PDF memerlukan internet untuk muat html2canvas library pertama kali (selepas itu, offline mode berfungsi).
+**P: Boleh kah saya gunakan offline/tanpa internet?**
+J: Boleh, TETAPI export PNG/PDF memerlukan internet untuk muat/upload html2canvas library pertama kali (selepas itu, offline mode berfungsi).
 
 **P: Bagaimana cara ganti bahasa?**
 J: Aplikasi dalam Bahasa Melayu sepenuhnya. Untuk bahasa lain, sumbang terjemahan ke GitHub.
