@@ -1,30 +1,30 @@
-# Jadual Kuliah Generator | Lecture Schedule Generator
+# Jadual Kuliah Generator | Kuliah Schedule Generator
 
-[**العربية**](#arabic) | [**Bahasa Melayu**](#bahasa-melayu) | [**English**](#english)
+ [**Bahasa Melayu**](#bahasa-melayu) | [**English**](#english)
 
 ---
 
 <a name="bahasa-melayu"></a>
 
-## 🕌 Jadual Kuliah Generator — Panduan Pengguna
+## 🕌 Jadual Kuliah Generator | Panduan Pengguna
 
-Alat jana jadual kuliah interaktif untuk masjid, surau, dan institusi pengajian Islam. Jana poster kuliah bulanan secara profesional dengan mudah — hanya perlukan nama penceramah, kitab/tajuk, dan jenis kuliah.
+Alat jana jadual kuliah interaktif untuk masjid, surau, dan institusi pengajian Islam. Jana poster kuliah bulanan secara profesional dengan mudah - hanya perlukan nama penceramah, kitab/tajuk, dan jenis kuliah.
 
 ### ✨ Ciri-Ciri
 
-- **Mudah Digunakan** — Antara muka intuitif dalam Bahasa Melayu
-- **Tanpa Perlu Setup** — Buka fail HTML sahaja, tak perlu install apa-apa
-- **Penyimpanan Lokal** — Data tersimpan di peranti anda sendiri (browser localStorage)
-- **Pelbagai Jenis Kuliah** — Kuliah Subuh, Kuliah Maghrib, Tazkirah Jumaat, Ceramah Perdana, Kuliah Khas, Tazkirah Khas, Bacaan Yasin & Tahlil, atau custom tajuk
-- **Logo & Gambar** — Muat naik logo masjid, logo jabatan, dan gambar masjid ikut personaliti premis anda
-- **Program Banner Penuh** — Buat program utama/banner yang memenuhi seluruh kotak tarikh
-- **Export Profesional** — Hasilkan poster dalam format PNG atau PDF bersaiz A3/A4 dengan resolusi tinggi
-- **Ubahsuai Warna** — Pilih warna untuk setiap jenis kuliah
-- **Pilihan Fon** — 7 pilihan fon untuk poster (Poppins, Montserrat, Inter, Nunito, Jost, Figtree, Gotham)
-- **Saiz Fon Boleh Laras** — Sesuaikan ukuran teks untuk keterbacaan optimal
-- **Latar Belakang Fleksibel** — Gunakan warna atau gambar sebagai latar belakang poster
-- **Sidebar Boleh Diubah Saiz** — Laraskan lebar panel kawalan mengikut keinginan
-- **Simpan & Muat Semula** — Simpan data jadual dalam format JSON untuk digunakan kembali
+- **Mudah Digunakan** - Antara muka intuitif dalam Bahasa Melayu
+- **Tanpa Perlu Setup** - Buka fail HTML sahaja, tak perlu install apa-apa
+- **Penyimpanan Lokal** - Data tersimpan di peranti anda sendiri (browser localStorage)
+- **Pelbagai Jenis Kuliah** - Kuliah Subuh, Kuliah Maghrib, Tazkirah Jumaat, Ceramah Perdana, Kuliah Khas, Tazkirah Khas, Bacaan Yasin & Tahlil, atau custom tajuk
+- **Logo & Gambar** - Muat naik logo masjid, logo jabatan, dan gambar masjid ikut personaliti premis anda
+- **Program Banner Penuh** - Buat program utama/banner yang memenuhi seluruh kotak tarikh
+- **Export Profesional** - Hasilkan poster dalam format PNG atau PDF bersaiz A3/A4 dengan resolusi tinggi
+- **Ubahsuai Warna** - Pilih warna untuk setiap jenis kuliah
+- **Pilihan Fon** - 7 pilihan fon untuk poster (Poppins, Montserrat, Inter, Nunito, Jost, Figtree, Gotham)
+- **Saiz Fon Boleh Laras** - Sesuaikan ukuran teks untuk keterbacaan optimal
+- **Latar Belakang Fleksibel** - Gunakan warna atau gambar sebagai latar belakang poster
+- **Sidebar Boleh Diubah Saiz** - Laraskan lebar panel kawalan mengikut keinginan
+- **Simpan & Muat Semula** - Simpan data jadual dalam format JSON untuk digunakan kembali
 
 ### 🚀 Cara Memulai
 
@@ -94,14 +94,15 @@ Alat jana jadual kuliah interaktif untuk masjid, surau, dan institusi pengajian 
 - Setiap kotak tarikh boleh muat maksimum 2 slot kuliah
 - Untuk 3+ kuliah dalam satu hari, pertimbangkan menggunakan program banner atau split ke dua hari
 
-### 🖥️ Kompatibilitas Browser
+### 🖥️ Browser yang kompatibel
 
 | Browser | Sokongan | Nota |
 |---------|----------|------|
 | Chrome/Chromium | ✅ Penuh | Diuji optimal |
-| Firefox | ✅ Penuh | Penuh sokongan |
+| Firefox | ✅ Penuh | cun |
 | Safari | ✅ Penuh | macOS dan iOS |
-| Edge | ✅ Penuh | Berbasis Chromium |
+| Edge | ✅ Penuh | ada lagi ke yang guna? |
+| Brave |  ✅ Cantik | cun cun
 | IE 11 | ❌ Tidak | Terlalu lama, tidak disokong |
 
 **Keperluan**: JavaScript mesti diaktifkan, localStorage diperlukan untuk penyimpanan data.
@@ -128,27 +129,27 @@ Alat jana jadual kuliah interaktif untuk masjid, surau, dan institusi pengajian 
 
 **Data saya hilang selepas tutup browser**
 - Profil masjid perlu disimpan (localStorage)
-- Jadual kuliah tidak disimpan automatik — gunakan "💾 Simpan Data" sebelum tutup
+- Jadual kuliah tidak disimpan automatik - gunakan "💾 Simpan Data" sebelum tutup
 
 ### 📱 Penggunaan di Smartphone
 
 - Aplikasi ini disediakan untuk desktop/tablet
-- Boleh diakses di mobile tetapi antara muka mungkin tidak optimal
+- Boleh diakses di mobile tetapi UI mungkin tidak cun
 - Lebih baik gunakan desktop untuk export yang berkualiti tinggi
 - Disarankan guna laptop/desktop untuk experience yang lebih padu
 
 ### 📄 Lesen
 
-GNU General Public License v3 (GPLv3) — Lihat fail LICENSE untuk maklumat lengkap.
+GNU General Public License v3 (GPLv3) - Lihat fail LICENSE untuk maklumat lengkap.
 
-### 🤝 Sumbangan
+### 🤝 Contribute
 
-Laporkan bug, cadangan ciri, atau pull request amat diterima! 
+Laporkan bug, cadangan ciri-ciri baru, pembetulan, atau pull request amat dialu-alukan! 
 
 **Cara melaporkan bug:**
-1. Buka Issues di GitHub
-2. Terangkan masalah dengan jelas (langkah reproduksi, screenshot)
-3. Termasuk versi browser dan sistem operasi anda
+1. Buka [Issues](https://github.com/Kengkorok/jadual-kuliah-generator/issues) di GitHub
+2. Terangkan masalah dengan jelas (langkah reproduction, screenshot)
+3. Sertakan versi browser dan sistem OS anda
 
 ### ❓ Soalan Lazim
 
