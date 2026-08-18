@@ -21,9 +21,9 @@ Alat jana jadual kuliah interaktif untuk masjid, surau, dan institusi pengajian 
 - **Export Profesional** - Hasilkan poster dalam format PNG atau PDF bersaiz A3/A4 dengan resolusi tinggi
 - **Ubahsuai Warna** - Pilih warna untuk setiap jenis kuliah
 - **Pilihan Fon** - 7 pilihan fon untuk poster (Poppins, Montserrat, Inter, Nunito, Jost, Figtree, Gotham)
-- **Saiz Fon Boleh Laras** - Sesuaikan ukuran teks untuk keterbacaan optimal
+- **Saiz Fon Boleh Laras** - Sesuaikan ukuran size font
 - **Latar Belakang Fleksibel** - Gunakan warna atau gambar sebagai latar belakang poster
-- **Sidebar Boleh Diubah Saiz** - Laraskan lebar panel kawalan mengikut keinginan
+- **Sidebar Boleh Diubah Saiz** - Laraskan lebar panel kawalan mengikut keselesaan
 - **Simpan & Muat Semula** - Simpan data jadual dalam format JSON untuk digunakan kembali
 
 ### 🚀 Cara Nak Guna
