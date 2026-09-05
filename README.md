@@ -1,6 +1,6 @@
 # Jadual Kuliah Generator | Kuliah Schedule Generator
 
- [**Bahasa Melayu**](#bahasa-melayu) | [**English**](#english)
+ [**Bahasa Melayu**](#bahasa-melayu) | [**English**](#english) Mandarin pun leh juga
 
 ---
 
