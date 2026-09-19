@@ -24,3 +24,10 @@ yarn-error.log
 # Temporary files
 .temp/
 tmp/
+
+# Local editions, personal backups and validation output
+backup-*/
+jadual-kuliah-talhah*.html
+*-semua-bulan.json
+test-results/
+playwright-report/

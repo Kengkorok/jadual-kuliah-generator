@@ -1,0 +1,9 @@
+{
+  "name": "jadual-kuliah-generator",
+  "version": "3.0.0",
+  "private": true,
+  "description": "Browser-based mosque schedule generator; Node is only used for development checks.",
+  "scripts": { "test": "node tests/test-generator.cjs" },
+  "devDependencies": { "playwright": "1.62.1" },
+  "license": "GPL-3.0-only"
+}

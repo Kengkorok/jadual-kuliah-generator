@@ -1,92 +1,25 @@
-# Jadual Kuliah Generator — Project Documentation
+# Jadual Kuliah Generator — Developer notes
 
-## Project Overview
-Single-file HTML/JavaScript web application for creating professional mosque lecture schedules with PNG/PDF export. Target audience: Islamic institutions in Malaysia and Malay-speaking regions.
+The public application opens through `jadual-kuliah-generator.html` with adjacent `app.css` and JavaScript files. It is vanilla JavaScript and CSS; users do not need Node.js, a build process or an account. PNG/PDF export lazy-loads html2canvas and jsPDF from jsDelivr. It targets Malay-speaking mosque and surau administrators.
 
-## Stack
-- **Frontend**: Vanilla JavaScript, HTML5, CSS3 (no frameworks)
-- **Storage**: Browser localStorage
-- **Export Libraries**: html2canvas (CDN), jsPDF (CDN)
-- **Fonts**: Google Fonts + Adobe Typekit (CDN)
+## Data and behavior
 
-## Key Constraints
-- Single-file application (no build process needed)
-- All data stored locally on user's device (privacy-first)
-- Must work offline except for first-time export CDN loads
-- Target: Desktop/Tablet (mobile support secondary)
+- localStorage key: `jkg_public_v3`. The workspace contains independent profiles; each owns its months, recurring rules, speaker library, poster settings and optional donation QR.
+- Profile JSON format: `jadual-kuliah-generator`, version 3. Workspace backups use `jadual-kuliah-workspace`, version 3.
+- Import adds copies. Existing profiles and months are not overwritten. Legacy single-month JSON is imported as a new profile.
+- A rule uses weekday and occurrence (0 = every week, 1–5 = nth weekday). Maximum two sessions per date. Manual overrides apply to whole dates and survive applying rules.
+- QR images retain their original bytes. Other uploads are validated and resized locally. No external requests, tracking or cloud storage.
+- Export dependencies: html2canvas 1.4.1 and jsPDF 2.5.1 load from jsDelivr when exporting.
+- Public defaults and examples must remain generic. Do not bundle personal backups, bank QR images, institutional logos or real speaker portraits from local editions.
 
-## Security Considerations
-- All user inputs are HTML-escaped before rendering (prevents XSS)
-- File uploads validated by MIME type (image files only)
-- localStorage has ~5-10MB quota - images automatically downsampled
-- No server/cloud communication - complete offline capability
+## Development
 
-## Development Guidelines
+Keep the distributable small and browser-openable from the repo folder. Escape user text inserted into HTML, use textContent where practical, and validate uploaded data. Keep profile switching and imports isolated. Document behavior changes in README.md in Malay and English and update CHANGELOG.md / version for releases.
 
-### When Adding New Features:
-1. Keep it in the single HTML file (no splitting)
-2. Escape user inputs using `escapeHtml()` helper function
-3. Validate file uploads using `isValidImageFile()` function
-4. Test in Chrome, Firefox, Safari, and Edge
-5. Update README.md with feature documentation in BOTH Malay and English
-6. Update version in README.md and create git tag
+Run `npm install` and `npm test` for development checks (Node.js and installed Edge/Chrome required). `TEST_BROWSERS` selects a comma-separated subset; `GENERATOR_HTML` can point to another HTML; `TEST_ARTIFACTS` selects the test output directory. Default output goes to the OS temporary directory.
 
-### Code Style:
-- No strict formatting requirements (existing style is casual)
-- Use descriptive variable names
-- Add comments for non-obvious logic only
-- Keep CSS in <style> block, JS in <script> block
+The tests cover blank/generic startup, profile isolation, reusable speakers, recurring rules and monthly overrides, backups/imports, QR placement, calendar alignment, XSS escaping, basic keyboard/mobile interaction, storage failure and A3/A4 PNG/PDF export. Review exported poster images visually when changing layout. Do not claim untested browser or accessibility compliance.
 
-### Testing:
-- Test all export formats (PNG, PDF) at A3 and A4 sizes
-- Test localStorage persistence and quota limits
-- Test with multiple browsers
-- Test keyboard navigation (sidebar resizer, form inputs)
-- Test accessibility with WAVE or axe DevTools
+## Limits
 
-### Before Publishing:
-- Verify all XSS protections (run through console with malicious inputs)
-- Test file upload validation
-- Check WCAG 2.1 AA compliance
-- Update version number
-- Create git tag (v1.0.0, v1.1.0, etc.)
-- Test README renders correctly on GitHub
-
-## File Structure
-```
-jadual-kuliah-generator/
-├── jadual-kuliah-generator.html    (Main application - 1600+ lines)
-├── README.md                        (Bilingual user guide)
-├── LICENSE                          (GPL v3)
-├── CLAUDE.md                        (This file - developer notes)
-├── .gitignore                       (Git ignore rules)
-└── CHANGELOG.md                     (Version history - optional)
-```
-
-## Known Limitations
-- No mobile optimization (works but UI not optimal)
-- Max 2 lecture slots per date (by design)
-- localStorage quota limits image sizes
-- Depends on CDN for html2canvas/jsPDF on first export
-- No user authentication (all data local)
-
-## Future Enhancement Ideas
-- Dark mode toggle
-- Multiple language support beyond Malay/English
-- Print-to-PDF directly without CDN
-- Mobile-optimized layout
-- Recurring lecture patterns
-- Integration with Google Calendar
-
-## Accessibility & Compliance
-- WCAG 2.1 AA compliant (keyboard navigation, color contrast)
-- All images have alt text or are decorative
-- Form inputs have proper labels
-- Color not sole means of information conveyance
-- Sidebar resizer keyboard accessible (Arrow keys)
-
-## License
-GNU General Public License v3.0 (GPLv3)
-- Free to use, modify, and distribute
-- Any modifications must also be open source under GPLv3
-- See LICENSE file for full terms
+Desktop Edge and Chrome on Windows have been tested. Mobile layout is supported, but full mobile/browser coverage is not claimed. Firefox and Safari are untested. PDF output is rasterized. System fonts and source image quality affect results. Browser localStorage can fill; users should export JSON backups regularly.
