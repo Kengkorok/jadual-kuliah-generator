@@ -2,12 +2,35 @@
 
 **Versi 3.0.0** · Generator poster kuliah untuk masjid dan surau. Buka `jadual-kuliah-generator.html` dalam folder repo, tanpa akaun dan tanpa langganan Adobe. Suntingan jadual berfungsi terus dalam pelayar; eksport PNG/PDF memerlukan internet untuk memuatkan pustaka eksport.
 
-**[Muat turun HTML](https://github.com/Kengkorok/jadual-kuliah-generator/raw/refs/heads/main/jadual-kuliah-generator.html)** · [English guide](#english)
+**[Muat turun ZIP](https://github.com/Kengkorok/jadual-kuliah-generator/archive/refs/heads/main.zip)** · [Cara clone](#cara-1-clone-repo) · [English guide](#english)
 
 
 ## Bahasa Melayu
 
-Muat turun `jadual-kuliah-generator.html`, kemudian buka dengan **Microsoft Edge atau Google Chrome**. Grafik umum dan komponen eksport sudah disertakan; tiada pemasangan atau proses binaan diperlukan.
+Aplikasi ini ialah `jadual-kuliah-generator.html` bersama `app.css` dan fail JavaScript jirannya. Semua fail itu perlu duduk dalam folder yang sama. Pilih mana-mana cara di bawah, kemudian buka HTML dengan **Microsoft Edge atau Google Chrome**. Tiada pemasangan, akaun atau proses binaan diperlukan.
+
+### Cara 1: Clone repo
+
+Cara ini senang untuk ambil kemas kini bulan berikutnya.
+
+```bash
+git clone https://github.com/Kengkorok/jadual-kuliah-generator.git
+cd jadual-kuliah-generator
+```
+
+Buka `jadual-kuliah-generator.html` dalam Edge atau Chrome. Untuk versi terkini kemudian, jalankan `git pull`.
+
+### Cara 2: Muat turun ZIP
+
+1. Tekan **Code → Download ZIP** pada halaman repo, atau guna pautan [Muat turun ZIP](https://github.com/Kengkorok/jadual-kuliah-generator/archive/refs/heads/main.zip).
+2. Ekstrak ZIP tersebut. Jangan asingkan `jadual-kuliah-generator.html` daripada `app.css`, `app-core.js`, `app-ui.js`, `profile.js` dan `app-init.js`.
+3. Buka `jadual-kuliah-generator.html` dalam Edge atau Chrome.
+
+### Contoh pratonton
+
+| Jadual contoh (nama generik) | Contoh masjid sebenar |
+| --- | --- |
+| ![Pratonton jadual contoh generik](docs/pratonton-contoh.png) | ![Pratonton contoh Masjid Talhah](docs/contoh-preview-masjidtalhah.png) |
 
 ### Mula dalam beberapa langkah
 
@@ -72,9 +95,28 @@ Aplikasi diedarkan sebagai satu HTML. Untuk menjalankan semakan pembangunan: pas
 
 ## English
 
-**Version 3.0.0** is a monthly lecture poster generator for any mosque or surau. Download the repository and open `jadual-kuliah-generator.html` in Edge or Chrome, with `app.css` and the JavaScript files in the same folder. Editing and saved data work in the browser; PNG/PDF export loads html2canvas and jsPDF from a CDN. No Adobe account or build process is needed.
+**Version 3.0.0** is a monthly lecture poster generator for any mosque or surau. The application is `jadual-kuliah-generator.html` together with `app.css` and its neighbouring JavaScript files; keep them in one folder. Editing and saved data work in the browser; PNG/PDF export loads html2canvas and jsPDF from a CDN. No Adobe account or build process is needed.
 
-Start with a blank profile or use **Cuba contoh** for a separate demonstration profile. Set the mosque name, poster heading, address, logo, building photo and colors in **Tetapan poster**. Each profile has independent speakers, recurring rules, donations and monthly schedules. No institution-specific bank QR, portraits or logos are bundled.
+### Getting the files
+
+**Option 1 — clone the repository** (easiest to keep updated):
+
+```bash
+git clone https://github.com/Kengkorok/jadual-kuliah-generator.git
+cd jadual-kuliah-generator
+```
+
+Open `jadual-kuliah-generator.html` in Edge or Chrome, and run `git pull` for later updates.
+
+**Option 2 — download the ZIP**: use **Code → Download ZIP** on the repository page, or this [ZIP download link](https://github.com/Kengkorok/jadual-kuliah-generator/archive/refs/heads/main.zip). Extract everything, keep the HTML beside `app.css` and the JavaScript files, then open the HTML.
+
+### Preview
+
+| Generic example (placeholder names) | Real mosque example |
+| --- | --- |
+| ![Generic example poster](docs/pratonton-contoh.png) | ![Masjid Talhah example poster](docs/contoh-preview-masjidtalhah.png) |
+
+Start with a blank profile or use **Cuba contoh** for a separate demonstration profile. Set the mosque name, poster heading, address, logo, building photo and colors in **Tetapan poster**. Each profile has independent speakers, recurring rules, donations and monthly schedules. Bundled defaults stay generic — no institution-specific bank QR, portraits or logos are preloaded. The `docs/` screenshots above are documentation only and do show a real mosque example.
 
 Add speakers through **Urus senarai** and configure **Aturan berulang** by weekday and first through fifth occurrence, or every week. Fifth occurrences are skipped when absent. At most two sessions can share a date; conflicting rules are rejected. Applying rules preserves manually edited dates, including deleted sessions and events. Newly opened months use the current rules; existing months change only when explicitly updated. Resetting a date or regenerating a month requires confirmation. Library edits affect future selections, not saved sessions.
 
@@ -92,4 +134,4 @@ Validated on Windows Edge and Chrome. Firefox and Safari have not been tested. D
 
 ## Licence
 
-GNU GPL v3 — see [LICENSE](LICENSE). Export libraries: html2canvas 1.4.1 and jsPDF 2.5.1 are loaded from jsDelivr. Generic mosque/book illustrations and demonstration silhouettes are included in this project. User-uploaded images remain the supplied material.
+GNU GPL v3 — see [LICENSE](LICENSE). Export libraries: html2canvas 1.4.1 and jsPDF 2.5.1 are loaded from jsDelivr. Generic mosque/book illustrations and demonstration silhouettes are included in this project. User-uploaded images remain the supplied material. Screenshots in `docs/` are documentation; the Masjid Talhah preview shows the author's own mosque, including its published contact number and donation QR, and is not loaded as a default profile.
