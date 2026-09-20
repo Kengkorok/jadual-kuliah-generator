@@ -1,5 +1,9 @@
 # Jadual Kuliah Generator
 
+**Sokong projek:** ☕ [Belanja kopi di Ko-fi](https://ko-fi.com/kengkorok) · [Imbas DuitNow QR](https://kengkorok.github.io/pogo-wave-radar/img/duitnow-qr.png)
+
+
+
 **Versi 3.0.0** · Generator poster kuliah untuk masjid dan surau. Buka `jadual-kuliah-generator.html` dalam folder repo, tanpa akaun dan tanpa langganan Adobe. Suntingan jadual berfungsi terus dalam pelayar; eksport PNG/PDF memerlukan internet untuk memuatkan pustaka eksport.
 
 **[Muat turun ZIP](https://github.com/Kengkorok/jadual-kuliah-generator/archive/refs/heads/main.zip)** · [Cara clone](#cara-1-clone-repo) · [English guide](#english)
