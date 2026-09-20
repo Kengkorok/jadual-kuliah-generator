@@ -1,6 +1,6 @@
 function updateStatus(){
  $('setupHint').hidden=project.profile.masjidName!==DEFAULT_PROFILE.masjidName||project.rules.length>0||Object.values(current.entries).some(x=>x.length);
- $('previewTitle').textContent=MONTH_NAMES[current.month]+' '+current.year;$('previewSubtitle').textContent='Pratonton poster · '+project.settings.paperSize+' landskap';
+ $('previewTitle').textContent=monthLabel(current.month)+' '+current.year;$('previewSubtitle').textContent=(appLanguage==='en'?'Poster preview · ':'Pratonton poster · ')+project.settings.paperSize+' '+(appLanguage==='en'?'landscape':'landskap');
  const count=Object.entries(current.entries).filter(([d])=>current.banners[d]?.mode!=='full').flatMap(([,s])=>s).filter(s=>s.type==='Tazkirah Jumaat'&&!s.speaker).length;
  $('pendingNotice').hidden=!count;$('pendingNotice').textContent=count+' penceramah Jumaat belum ditetapkan.';
  $('monthSource').textContent=(current.source==='import'?'Data yang diimport':project.rules.length?project.rules.length+' aturan berulang dalam profil ini':'Mulakan dengan aturan berulang atau isi tarikh sendiri')+(current.dirty?' · ada perubahan bulan ini':'');
@@ -8,14 +8,14 @@ function updateStatus(){
 }
 function syncMonthControls(){
  $('monthSel').value=current.month;$('yearInput').value=current.year;$('paperSizeSel').value=project.settings.paperSize;
- $('dateSel').innerHTML=Array.from({length:daysInMonth(current.year,current.month)},(_,i)=>`<option value="${i+1}">${i+1} hb</option>`).join('');selectedDate=Math.min(selectedDate,daysInMonth(current.year,current.month));$('dateSel').value=selectedDate;
+ $('dateSel').innerHTML=Array.from({length:daysInMonth(current.year,current.month)},(_,i)=>`<option value="${i+1}">${i+1} ${appLanguage==='en'?'day':'hb'}</option>`).join('');selectedDate=Math.min(selectedDate,daysInMonth(current.year,current.month));$('dateSel').value=selectedDate;
 }
 function discardDraft(){return !formDirty||confirm('Perubahan dalam borang belum disimpan. Abaikan perubahan ini?');}
 function switchMonth(year,month){if(!discardDraft()){syncMonthControls();return;}year=clamp(year,2020,2100,2026)|0;const key=monthKey(year,month);if(!project.months[key])project.months[key]=generateMonth(year,month);project.active=key;current=project.months[key];selectedDate=1;selectedSlot=0;editMode='slot';syncMonthControls();renderPoster();fillEditor();persist();}
 function selectDay(day){if(!discardDraft())return;selectedDate=+day;selectedSlot=0;editMode=current.banners[day]?'banner':'slot';$('dateSel').value=selectedDate;renderPoster();fillEditor();}
 function fillEditor(){
  formDirty=false;$('saveStatus').textContent=$('storageWarning').hidden?'Disimpan pada peranti ini':'Belum disimpan';const slots=current.entries[selectedDate]||[],banner=current.banners[selectedDate];
- $('selectedDayHeading').textContent=DAYS[new Date(current.year,current.month,selectedDate).getDay()]+' '+selectedDate+' hb';
+ $('selectedDayHeading').textContent=dayLabel(new Date(current.year,current.month,selectedDate).getDay())+' '+selectedDate+' '+(appLanguage==='en'?'day':'hb');
  $('slotTabs').innerHTML=slots.map((s,i)=>`<button type="button" data-slot="${i}" class="${editMode==='slot'&&selectedSlot===i?'active':''}">${escapeHtml(s.type.replace('Kuliah ',''))}</button>`).join('')+(banner?`<button type="button" data-banner class="${editMode==='banner'?'active':''}">Acara</button>`:'');
  $('slotForm').hidden=editMode!=='slot';$('bannerForm').hidden=editMode!=='banner';
  $('addSlotBtn').disabled=slots.length>=2||banner?.mode==='full'||(banner?.mode==='mixed'&&slots.length>=1);$('addBannerBtn').disabled=!!banner;
@@ -119,7 +119,7 @@ function saveDonation(e){
  project.profile.donation=normalDonation({enabled:$('donationEnabled').checked,qr:draftDonationQr,heading:$('donationHeading').value.trim(),message:$('donationMessage').value.trim(),recipient:$('donationRecipient').value.trim(),placement:$('donationPlacement').value,fallback:$('donationFallback').value});persist();renderPoster();$('donationDialog').close();toast('Tetapan infaq disimpan.');
 }
 function bind(){
- $('monthSel').innerHTML=MONTH_NAMES.map((m,i)=>`<option value="${i}">${m}</option>`).join('');refreshProfileUI();
+ $('monthSel').innerHTML=MONTH_NAMES.map((m,i)=>`<option value="${i}">${monthLabel(i)}</option>`).join('');refreshProfileUI();
  $('monthSel').onchange=()=>switchMonth(+$('yearInput').value,+$('monthSel').value);$('yearInput').onchange=()=>switchMonth(+$('yearInput').value,+$('monthSel').value);$('dateSel').onchange=()=>{const d=+$('dateSel').value;selectDay(d);$('dateSel').value=selectedDate;};
  $('grid').onclick=e=>{const cell=e.target.closest('[data-day]');if(cell)selectDay(+cell.dataset.day);};$('grid').onkeydown=e=>{if(['Enter',' '].includes(e.key)&&e.target.dataset.day){e.preventDefault();selectDay(+e.target.dataset.day);}};
  $('slotTabs').onclick=e=>{const slot=e.target.closest('[data-slot]'),banner=e.target.closest('[data-banner]');if((!slot&&!banner)||!discardDraft())return;editMode=banner?'banner':'slot';if(slot)selectedSlot=+slot.dataset.slot;fillEditor();};
@@ -137,7 +137,7 @@ function bind(){
  $('settingsBtn').onclick=openSettings;$('settingsForm').onsubmit=saveSettings;$('helpBtn').onclick=()=>$('helpDialog').showModal();document.querySelectorAll('[data-close]').forEach(b=>b.onclick=()=>$(b.dataset.close).close());
  $('donationBtn').onclick=openDonation;$('donationForm').onsubmit=saveDonation;$('donationQrInput').onchange=changeDonationQr;$('donationPlacement').onchange=()=>{$('donationFallbackField').hidden=$('donationPlacement').value==='footer';};$('defaultDonationQrBtn').onclick=()=>{draftDonationQr=null;$('donationEnabled').checked=false;updateDonationPreview();};
  $('paperSizeSel').onchange=()=>{project.settings.paperSize=$('paperSizeSel').value;persist();updateStatus();};$('exportPngBtn').onclick=()=>doExport('png');$('exportPdfBtn').onclick=()=>doExport('pdf');$('saveDataBtn').onclick=()=>{if(formDirty)toast('Perubahan borang belum disimpan. Simpan perubahan dahulu untuk memasukkannya dalam sandaran.');else exportData();};$('loadDataBtn').onclick=()=>$('uploadDataInput').click();$('uploadDataInput').onchange=async()=>{try{await importData($('uploadDataInput').files[0]);}catch(e){toast('Gagal membuka data: '+e.message);}$('uploadDataInput').value='';};
- window.addEventListener('beforeunload',e=>{if(formDirty){e.preventDefault();e.returnValue='';}});window.addEventListener('resize',resizePreview);new ResizeObserver(resizePreview).observe($('previewViewport'));syncMonthControls();renderPoster();fillEditor();document.fonts.ready.then(()=>{drawTitle();fitText();});
+ document.addEventListener('languagechange',()=>{$('monthSel').innerHTML=MONTH_NAMES.map((m,i)=>`<option value="${i}">${monthLabel(i)}</option>`).join('');if($('ruleDay'))$('ruleDay').innerHTML=[1,2,3,4,5,6,0].map(d=>`<option value="${d}">${dayLabel(d)}</option>`).join('');syncMonthControls();refreshProfileUI();renderPoster();fillEditor();});window.addEventListener('beforeunload',e=>{if(formDirty){e.preventDefault();e.returnValue='';}});window.addEventListener('resize',resizePreview);new ResizeObserver(resizePreview).observe($('previewViewport'));syncMonthControls();renderPoster();fillEditor();document.fonts.ready.then(()=>{drawTitle();fitText();});
 }
 
 

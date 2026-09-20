@@ -111,8 +111,8 @@ function renderPoster(){
  const st=project.settings,p=project.profile;const el=$('poster');
  el.style.backgroundImage=st.bgImage?`url("${asset(st.bgImage)}")`:`linear-gradient(${st.bgTop} 20%,${st.bgBottom} 100%)`;el.style.backgroundSize='cover';el.style.backgroundPosition='center';
  setPosterImage('headerLogos',p.logos);setPosterImage('headerMasjidPhoto',p.masjidPhoto);$('genericMosque').hidden=!!asset(p.masjidPhoto);drawTitle();$('posterMasjidName').textContent=p.masjidName.toUpperCase();$('profileBrand').textContent=p.masjidName;
- $('monthPillText').textContent=MONTH_NAMES[current.month].toUpperCase()+' '+current.year;$('headerAddressText').textContent=p.address;$('headerPhoneText').textContent=p.phone?'NO. TELEFON:\n'+p.phone:'';$('headerPhoneText').hidden=!p.phone;
- $('dowRow').innerHTML=[1,2,3,4,5,6,0].map(d=>`<div class="dow">${DAYS[d].toUpperCase()}</div>`).join('');
+ $('monthPillText').textContent=monthLabel(current.month).toUpperCase()+' '+current.year;$('headerAddressText').textContent=p.address;$('headerPhoneText').textContent=p.phone?(appLanguage==='en'?'PHONE:\n':'NO. TELEFON:\n')+p.phone:'';$('headerPhoneText').hidden=!p.phone;
+ $('dowRow').innerHTML=[1,2,3,4,5,6,0].map(d=>`<div class="dow">${dayLabel(d).toUpperCase()}</div>`).join('');
  const layout=monthCells(current.year,current.month,st.compact),donation=normalDonation(p.donation),location=donationLocation(layout,donation),footer=location.kind==='footer';$('grid').style.gridTemplateRows=`repeat(${layout.rows},minmax(0,1fr))`;el.classList.toggle('six-rows',layout.rows===6||(footer&&layout.rows>=5));el.classList.toggle('donation-footer-mode',footer);
  $('donationFooter').hidden=!footer;$('donationFooter').innerHTML=footer?donationHTML(donation):'';
  $('donationStatus').textContent=location.kind==='cell'?'QR di ruang tanpa tarikh ('+location.span+' petak).':footer?'QR di jalur bawah poster.':location.reason==='space'?'QR disembunyikan: tiada ruang tanpa tarikh yang cukup.':location.reason==='missing'?'QR belum dimuat naik.':'Ruang infaq dimatikan.';
@@ -122,7 +122,7 @@ function renderPoster(){
   let html=`<div class="datebadge">${d}</div>`;
   if(banner){html+=imageHTML(banner.img,`class="event-image" alt="${escapeHtml(banner.topic||'Acara khas')}" style="object-fit:${banner.imgFit==='contain'?'contain':'cover'}"`);if(banner.mode==='mixed')html+=slots.slice(0,1).map(s=>slotHTML(s,true,1)).join('');else if(banner.topic||banner.speaker)html+=`<div class="event-caption">${escapeHtml([banner.topic,banner.speaker].filter(Boolean).join(' · '))}</div>`;}
   else html+=slots.map((s,i)=>slotHTML(s,slots.length>1,i)).join('');
-  return `<div class="cell ${slots.length>1&&!banner?'two-slots':''} ${yasin?'yasin-cell':''} ${banner?.mode==='mixed'?'mixed-cell':''} ${d===selectedDate?'selected':''}" data-day="${d}" tabindex="0" role="button" aria-label="Sunting ${DAYS[new Date(current.year,current.month,d).getDay()]} ${d} ${MONTH_NAMES[current.month]}">${html}</div>`;
+  return `<div class="cell ${slots.length>1&&!banner?'two-slots':''} ${yasin?'yasin-cell':''} ${banner?.mode==='mixed'?'mixed-cell':''} ${d===selectedDate?'selected':''}" data-day="${d}" tabindex="0" role="button" aria-label="${appLanguage==='en'?'Edit':'Sunting'} ${dayLabel(new Date(current.year,current.month,d).getDay())} ${d} ${monthLabel(current.month)}">${html}</div>`;
  }).join('');
  cancelAnimationFrame(layoutFrame);layoutFrame=requestAnimationFrame(()=>{fitText();drawCellShadows();resizePreview();});updateStatus();
 }

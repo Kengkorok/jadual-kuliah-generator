@@ -11,6 +11,7 @@ fs.mkdirSync(out,{recursive:true});
   page.on('pageerror',e=>errors.push(e.message));page.on('dialog',d=>d.accept());
   await page.goto('file:///'+app.replaceAll('\\','/'));await page.evaluate(()=>document.fonts.ready);
   assert.equal(await page.evaluate(()=>workspace.projects.length),1);assert.equal(await page.locator('#poster .slot').count(),0);assert.equal(await page.locator('#poster .donation-qr').count(),0);
+  assert.equal(await page.locator('#supportBtn').getAttribute('href'),'https://kengkorok.github.io/support-me/');await page.locator('#languageSel').selectOption('en');await page.waitForFunction(()=>document.documentElement.lang==='en');assert.equal(await page.locator('#settingsBtn').innerText(),'Poster settings');assert.equal(await page.locator('#monthSel option').first().innerText(),'January');await page.locator('#languageSel').selectOption('ms');await page.waitForFunction(()=>document.documentElement.lang==='ms');assert.equal(await page.locator('#settingsBtn').innerText(),'Tetapan poster');
   await page.locator('#yearInput').fill('2026');await page.locator('#yearInput').press('Tab');await page.locator('#monthSel').selectOption('8');
   await page.locator('#exampleBtn').click();assert.equal(await page.evaluate(()=>project.rules.length),6);const demoId=await page.evaluate(()=>project.id);
   await page.evaluate(()=>new Promise(requestAnimationFrame));assert.equal(await page.locator('#layoutWarning').isVisible(),false);

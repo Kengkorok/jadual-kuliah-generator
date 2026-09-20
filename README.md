@@ -1,12 +1,10 @@
 # Jadual Kuliah Generator
 
-**Sokong projek:** ☕ [Belanja kopi di Ko-fi](https://ko-fi.com/kengkorok) · [Imbas DuitNow QR](https://kengkorok.github.io/pogo-wave-radar/img/duitnow-qr.png)
-
-
-
 **Versi 3.0.0** · Generator poster kuliah untuk masjid dan surau. Buka `jadual-kuliah-generator.html` dalam folder repo, tanpa akaun dan tanpa langganan Adobe. Suntingan jadual berfungsi terus dalam pelayar; eksport PNG/PDF memerlukan internet untuk memuatkan pustaka eksport.
 
 **[Muat turun ZIP](https://github.com/Kengkorok/jadual-kuliah-generator/archive/refs/heads/main.zip)** · [Cara clone](#cara-1-clone-repo) · [English guide](#english)
+
+**Sokong projek:** ☕ [Belanja kopi di Ko-fi](https://ko-fi.com/kengkorok) · [Imbas DuitNow QR](https://kengkorok.github.io/pogo-wave-radar/img/duitnow-qr.png)
 
 
 ## Bahasa Melayu
@@ -91,6 +89,13 @@ Jika ruang tidak mencukupi, aplikasi menggunakan jalur bawah. Pilihan lain ialah
 
 PDF mengandungi imej poster resolusi tinggi. Kualiti potret bergantung pada gambar sumber. Fon menggunakan Arial, Arial Narrow dan Arial Black jika tersedia; rupa huruf boleh berbeza mengikut peranti. Teks terlalu panjang ditandakan dan perlu dipendekkan sebelum eksport.
 
+### ☕ Belanja kopi
+
+Generator ini percuma dan tiada iklan. Jika ia memudahkan kerja menyediakan jadual kuliah, anda boleh menyokong hasil kerja ini:
+
+- **Ko-fi** — sesuai untuk penyokong antarabangsa: [ko-fi.com/kengkorok](https://ko-fi.com/kengkorok)
+- **DuitNow QR (Malaysia)** — imbas melalui TNG eWallet atau mana-mana aplikasi DuitNow: [Buka QR](https://kengkorok.github.io/pogo-wave-radar/img/duitnow-qr.png)
+
 ### Pengesahan dan pembangunan
 
 Disemak pada Windows dengan Edge dan Chrome: pengasingan profil, aturan mingguan/kejadian tertentu, pengecualian bulanan, import/eksport data, QR mengikut profil, susunan mudah alih, kegagalan storan dan eksport PNG/PDF A3/A4. Semakan kalendar meliputi 2026–2030 dalam mod biasa serta padat. Eksport menggunakan pustaka dari CDN. Firefox dan Safari belum diuji.
@@ -100,6 +105,8 @@ Aplikasi diedarkan sebagai satu HTML. Untuk menjalankan semakan pembangunan: pas
 ## English
 
 **Version 3.0.0** is a monthly lecture poster generator for any mosque or surau. The application is `jadual-kuliah-generator.html` together with `app.css` and its neighbouring JavaScript files; keep them in one folder. Editing and saved data work in the browser; PNG/PDF export loads html2canvas and jsPDF from a CDN. No Adobe account or build process is needed.
+
+**Support this project:** ☕ [Buy me a coffee on Ko-fi](https://ko-fi.com/kengkorok) · [Scan the DuitNow QR](https://kengkorok.github.io/pogo-wave-radar/img/duitnow-qr.png)
 
 ### Getting the files
 
@@ -133,6 +140,13 @@ The donation panel is off by default. Upload your own QR without recompression, 
 Browser storage is local to the browser and file/origin. The HTML itself does not change when edited. Export JSON before moving to another location or device. Storage failures are shown while keeping the current data available for backup. Save open forms before exporting.
 
 PNG exports use A3 4961 × 3508 or A4 3508 × 2480 at 300 dpi. Raster PDF exports use A3 420 × 297 mm or A4 297 × 210 mm. Source image resolution and available system fonts affect the result. Text overflow is flagged before export.
+
+### ☕ Support the project
+
+This generator is free and ad-free. If it makes preparing lecture schedules easier, you can support the work:
+
+- **Ko-fi** — for international supporters: [ko-fi.com/kengkorok](https://ko-fi.com/kengkorok)
+- **DuitNow QR (Malaysia)** — scan with TNG eWallet or any DuitNow app: [Open the QR](https://kengkorok.github.io/pogo-wave-radar/img/duitnow-qr.png)
 
 Validated on Windows Edge and Chrome. Firefox and Safari have not been tested. Development checks: install Node.js, run `npm install`, then `npm test`. The application itself needs no runtime installation; keep `jadual-kuliah-generator.html`, `app.css` and the JavaScript files together.
 
